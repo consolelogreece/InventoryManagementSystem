@@ -46,12 +46,12 @@ namespace IMS_UI
                 }
             }
 
-            nameTextbox.Text = "";
-            descriptionTextbox.Text = "";
-            categoryTextbox.Text = "";
-            statusTextbox.Text = "";
-            urlTextbox.Text = "";
-            imagePathTextbox.Text = "";
+            //nameTextbox.Text = "";
+            //descriptionTextbox.Text = "";
+            //categoryTextbox.Text = "";
+            //statusTextbox.Text = "";
+            //urlTextbox.Text = "";
+            //imagePathTextbox.Text = "";
 
         }
 
@@ -62,6 +62,20 @@ namespace IMS_UI
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) output = false;
             if (String.IsNullOrWhiteSpace(statusTextbox.Text)) output = false;
             if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = false;
+
+            return output;
+        }
+
+        private bool DoesFormContainData()
+        {
+            bool output = false;
+
+            if (!String.IsNullOrWhiteSpace(nameTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(statusTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(descriptionTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(urlTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(imagePathTextbox.Text)) output = true;
 
             return output;
         }
@@ -89,13 +103,29 @@ namespace IMS_UI
 
             imagePathErrorLabel.Text = "";
             imagePreviewPicturebox.Image = Image.FromFile(imagePathTextbox.Text);
-
-
         }
 
         private void AddProductForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            if (DoesFormContainData())
+            {
+                var confirmResult = MessageBox.Show("Are you sure you want to cancel?","Cancel", MessageBoxButtons.YesNo);
+
+                if (confirmResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            var mainform = new Main();
+
+            mainform.Show();
+            this.Hide();
         }
     }
 }

@@ -8,13 +8,8 @@ namespace IMS_UI
 {
     static class Program
     {
-        /// TODO - Change library type to Class library (.net framework), instead of class library (.net standard).
-        ///
-
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        // TODO - why is it not saving correctly?
+        // TODO - replace newlines with "\n" if poss
         [STAThread]
         static void Main()
         {

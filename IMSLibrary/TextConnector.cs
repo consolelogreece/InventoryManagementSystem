@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -8,57 +9,60 @@ namespace IMSLibrary
 {
     public class TextConnector : IDataConnection
     {
+        private const string datafile = "data.csv";
+
+        private List<ProductModel> Data = new List<ProductModel>();
+
+        private bool isDataLoaded = false;
+
         public async Task<bool> AddProductAsync(ProductModel product)
         {
             bool isSuccessful = true;
 
             string sourceFilePath = TextConnectorProcessor.fullFilePath("data.csv");
 
-            using (TextWriter tw = new StreamWriter(sourceFilePath, true))
-            {
-                try
+            EnsureCreated(sourceFilePath);
+
+            using (TextWriter textWriter = new StreamWriter(sourceFilePath, true))
+            {   try
                 {
-                    await tw.WriteAsync($"{product.Id}," +
-                        $"{ StringToCSVCell(product.Name) }," +
-                        $"{ StringToCSVCell(product.Description) }," +
-                        $"{ StringToCSVCell(product.Category) }," +
-                        $"{ StringToCSVCell(product.Status) }," +
-                        $"{ product.DateAdded }," +
-                        $"{ StringToCSVCell(product.ProductURL) }," +
-                        $"{ product.isSold }," +
-                        $"{ product.SoldPrice }," +
-                        $"{ product.DateSold }," +
-                        $"{ StringToCSVCell(product.ImagePath) }" +
-                        $"{Environment.NewLine}");
+                    var csv = new CsvWriter(textWriter);
+                    csv.WriteRecord(product);
+                    csv.NextRecord();
+                    Data.Add(product);
                 }
-                catch (IOException ex)
+                catch (CsvHelperException ex)
                 {
-                    Console.WriteLine(ex);
                     isSuccessful = false;
-                }
+                }   
             }
-            
             return isSuccessful;
         }
 
-        public static string StringToCSVCell(string str)
+        public void EnsureCreated(string file)
         {
-            bool mustQuote = (str.Contains(",") || str.Contains("\"") || str.Contains("\r") || str.Contains("\n"));
-            if (mustQuote)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("\"");
-                foreach (char nextChar in str)
-                {
-                    sb.Append(nextChar);
-                    if (nextChar == '"')
-                        sb.Append("\"");
-                }
-                sb.Append("\"");
-                return sb.ToString();
-            }
+            if (File.Exists(file)) return;
 
-            return str;
+            using (TextWriter textWriter = new StreamWriter(file, true))
+            {
+                var csv = new CsvWriter(textWriter);
+                csv.WriteHeader<ProductModel>();
+                csv.NextRecord();
+            }
+            return;
+        }
+
+
+        public async Task<List<ProductModel>> LoadData()
+        {
+            if (!isDataLoaded)
+            {
+                var output = await datafile.fullFilePath().LoadFileAsync();
+                Data = output;
+                isDataLoaded = true;
+            }
+           
+            return Data;
         }
     }
 }

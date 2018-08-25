@@ -8,6 +8,10 @@ namespace IMSLibrary
     {
         public static List<IDataConnection> Connections { get; private set; } = new List<IDataConnection>();
 
+        public static int DataViewPageNo = 0;
+
+        public static int resultsPerPage = 50;
+
         public static void InitializeConnections(bool textFiles)
         {
             if (textFiles)

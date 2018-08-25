@@ -8,5 +8,7 @@ namespace IMSLibrary
     public interface IDataConnection
     {
         Task<bool> AddProductAsync(ProductModel product);
+        Task<List<ProductModel>> LoadData();
+        void EnsureCreated(string file);
     }
 }
