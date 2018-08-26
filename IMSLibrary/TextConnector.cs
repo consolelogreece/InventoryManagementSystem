@@ -9,24 +9,33 @@ namespace IMSLibrary
 {
     public class TextConnector : IDataConnection
     {
+        #region private vars
         private const string datafile = "data.csv";
 
         private List<ProductModel> Data = new List<ProductModel>();
 
         private bool isDataLoaded = false;
+        #endregion
+
+        public async Task<bool> ReloadData() {
+            isDataLoaded = false;
+            await LoadData();
+            return true;
+        }
 
         public async Task<bool> AddProductAsync(ProductModel product)
         {
             bool isSuccessful = true;
 
-            string sourceFilePath = TextConnectorProcessor.fullFilePath("data.csv");
+            string sourceFilePath = TextConnectorProcessor.fullFilePath(datafile);
 
             EnsureCreated(sourceFilePath);
 
             using (TextWriter textWriter = new StreamWriter(sourceFilePath, true))
-            {   try
+            using (var csv = new CsvWriter(textWriter))
+            {
+                try
                 {
-                    var csv = new CsvWriter(textWriter);
                     csv.WriteRecord(product);
                     csv.NextRecord();
                     Data.Add(product);
@@ -34,7 +43,7 @@ namespace IMSLibrary
                 catch (CsvHelperException ex)
                 {
                     isSuccessful = false;
-                }   
+                }
             }
             return isSuccessful;
         }
@@ -52,7 +61,6 @@ namespace IMSLibrary
             return;
         }
 
-
         public async Task<List<ProductModel>> LoadData()
         {
             if (!isDataLoaded)
@@ -63,6 +71,48 @@ namespace IMSLibrary
             }
            
             return Data;
+        }
+
+        public async Task<ProductModel> RetrieveEntryByGuid(Guid Id)
+        {
+            if (!isDataLoaded) await LoadData();
+
+            ProductModel product = Data.Find(x => x.Id == Id);
+
+            return product;
+        }
+
+        public bool SaveChanges(ProductModel product)
+        {
+            bool foundId = false;
+            Guid idOfProductToEdit = product.Id;
+            for(int i = 0; i < Data.Count; i++)
+            {
+                if (Data[i].Id == idOfProductToEdit)
+                {
+                    foundId = true;
+                    Data[i] = product;
+                }
+            }
+
+            if (foundId)
+            {
+                try
+                {
+                    using (TextWriter textWriter = new StreamWriter(datafile.fullFilePath(), false))
+                    using (var csv = new CsvWriter(textWriter))
+                    {
+                        csv.WriteHeader<ProductModel>();
+                        csv.NextRecord();
+                        csv.WriteRecords(Data);
+                    }
+                }
+                catch (CsvHelperException ex)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

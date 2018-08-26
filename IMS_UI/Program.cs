@@ -8,8 +8,6 @@ namespace IMS_UI
 {
     static class Program
     {
-        // TODO - why is it not saving correctly?
-        // TODO - replace newlines with "\n" if poss
         [STAThread]
         static void Main()
         {
@@ -18,7 +16,7 @@ namespace IMS_UI
 
             IMSLibrary.GlobalConfig.InitializeConnections(true);
 
-            Application.Run(new AddProductForm());
+            Application.Run(new Main());
         }
     }
 }

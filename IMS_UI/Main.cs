@@ -18,6 +18,7 @@ namespace IMS_UI
             InitializeComponent();
         }
 
+        private ProductModel selectedProduct;
 
         private async void LoadDataIntoListView()
         {
@@ -34,7 +35,7 @@ namespace IMS_UI
             {
                 if (i > results.GetLength(0) - 1) break;
                 var p = results[i];
-                dataListView.Items.Add(new ListViewItem (new string[] { p.Name, p.Category, p.Status, p.isSold ? "Yes" : "No", p.DateAdded.ToShortDateString() }));
+                dataListView.Items.Add(new ListViewItem (new string[] {p.Id.ToString(), p.Name, p.Category, p.Status, p.isSold ? "Yes" : "No", p.DateAdded.ToShortDateString() }));
             }
         }
 
@@ -44,6 +45,7 @@ namespace IMS_UI
             dataListView.View = View.Details;
             dataListView.FullRowSelect = true;
             dataListView.GridLines = true;
+            dataListView.Columns.Add("Id", 40);
             dataListView.Columns.Add("Name",200);
             dataListView.Columns.Add("Category", 120);
             dataListView.Columns.Add("Status", 120);
@@ -52,13 +54,11 @@ namespace IMS_UI
             LoadDataIntoListView();
         }
 
-        private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            await GlobalConfig.Connections[0].ReloadData();
             LoadDataIntoListView();
         }
 
@@ -67,10 +67,47 @@ namespace IMS_UI
             LoadDataIntoListView();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataListView_DoubleClick(object sender, EventArgs e)
         {
+            Guid ProductId = Guid.Empty;
+            Guid.TryParse(dataListView.SelectedItems[0].SubItems[0].Text.ToString(), out ProductId);
 
+            ProductModel product = new ProductModel();
+
+            if (ProductId != Guid.Empty)
+            {
+                product = await GlobalConfig.Connections[0].RetrieveEntryByGuid(ProductId);
+            }
+
+            this.selectedProduct = product;
+            LoadDataIntoForm(product);
         }
+
+        private void LoadDataIntoForm(ProductModel product)
+        {
+            nameTextbox.Text = product.Name;
+            descriptionTextbox.Text = product.Description;
+            categoryTextbox.Text = product.Category;
+            statusTextbox.Text = product.Status;
+            urlTextbox.Text = product.ProductURL;
+            imagePathTextbox.Text = product.ImagePath;
+            dateAddedTextbox.Text = product.DateAdded.ToLongDateString();
+
+
+            if (product.isSold)
+            {
+                soldCheckBox.Checked = true;
+                sellDateTextBox.Text = product.DateSold.ToLongDateString();
+                soldPriceTextBox.Text = product.SoldPrice.ToString();
+            }
+            else
+            {
+                soldCheckBox.Checked = false;
+                sellDateTextBox.Text = "";
+                soldPriceTextBox.Text = "";
+            }
+        }
+
 
         private void pageLeft_Click(object sender, EventArgs e)
         {
@@ -82,6 +119,81 @@ namespace IMS_UI
         {
             GlobalConfig.DataViewPageNo++;
             LoadDataIntoListView();
+        }
+
+
+        #region Unused ui events
+        private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imagePreviewLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void poundLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void soldPriceLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void soldGroupBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        private void soldCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (soldCheckBox.Checked)
+            {
+                soldPriceTextBox.Enabled = true;
+                sellDateTextBox.Text = DateTime.Now.ToLongDateString();
+            }
+            else
+            {
+                soldPriceTextBox.Enabled = false;
+                soldPriceTextBox.Text = "";
+                sellDateTextBox.Text = "";
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveChangesButton_Click(object sender, EventArgs e)
+        {
+            var model = new ProductModel();
+
+            model.Id = selectedProduct.Id;
+            model.Name = nameTextbox.Text;
+            model.Description = descriptionTextbox.Text;
+            model.Category = categoryTextbox.Text;
+            model.Status = statusTextbox.Text;
+            model.ProductURL = urlTextbox.Text;
+            model.ImagePath = imagePathTextbox.Text;
+            model.DateAdded = selectedProduct.DateAdded;
+            model.isSold = soldCheckBox.Checked;
+            model.SoldPrice = Decimal.Parse(soldPriceTextBox.Text);
+            model.DateSold = soldCheckBox.Checked ? DateTime.Now : DateTime.MinValue;
+
+            GlobalConfig.Connections[0].SaveChanges(model);
+            LoadDataIntoListView();
+        }
+
+        private void addNewButton_Click(object sender, EventArgs e)
+        {
+            var addnewform = new AddProductForm();
+            addnewform.Show();
+            this.Hide();
         }
     }
 }

@@ -9,6 +9,9 @@ namespace IMSLibrary
     {
         Task<bool> AddProductAsync(ProductModel product);
         Task<List<ProductModel>> LoadData();
+        Task<ProductModel> RetrieveEntryByGuid(Guid Id);
+        Task<bool> ReloadData();
+        bool SaveChanges(ProductModel product);
         void EnsureCreated(string file);
     }
 }

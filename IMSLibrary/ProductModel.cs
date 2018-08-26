@@ -44,7 +44,7 @@ namespace IMSLibrary
         /// <summary>
         /// Price product sold for, if sold.
         /// </summary>
-        public int SoldPrice { get; set; }
+        public Decimal SoldPrice { get; set; }
 
         /// <summary>
         /// Date product sold, if sold.

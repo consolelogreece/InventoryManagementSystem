@@ -18,16 +18,22 @@ namespace IMSLibrary
 
         public static async Task<List<ProductModel>> LoadFileAsync(this string file)
         {
-
-            if (!File.Exists(file)) return new List<ProductModel>();
-
-            using (TextReader fileReader = File.OpenText(file))
+            try
             {
-                var csv = new CsvReader(fileReader);
-                var output = csv.GetRecords<ProductModel>();
+                if (!File.Exists(file)) return new List<ProductModel>();
 
-                return output.ToList();
+                using (TextReader fileReader = File.OpenText(file))
+                using (var csv = new CsvReader(fileReader))
+                {
+                    var output = csv.GetRecords<ProductModel>();
+                    return output.ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                return new List<ProductModel>();
+            }
+           
         }
     }
 }

@@ -33,7 +33,7 @@ namespace IMS_UI
             model.DateAdded = DateTime.Now;
             model.isSold = false;
             model.SoldPrice = 0;
-            model.DateSold = DateTime.Now;
+            model.DateSold = DateTime.MinValue;
 
             foreach (IDataConnection db in GlobalConfig.Connections)
             {
@@ -46,12 +46,12 @@ namespace IMS_UI
                 }
             }
 
-            //nameTextbox.Text = "";
-            //descriptionTextbox.Text = "";
-            //categoryTextbox.Text = "";
-            //statusTextbox.Text = "";
-            //urlTextbox.Text = "";
-            //imagePathTextbox.Text = "";
+            nameTextbox.Text = "";
+            descriptionTextbox.Text = "";
+            categoryTextbox.Text = "";
+            statusTextbox.Text = "";
+            urlTextbox.Text = "";
+            imagePathTextbox.Text = "";
 
         }
 
