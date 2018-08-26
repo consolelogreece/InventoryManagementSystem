@@ -12,10 +12,33 @@ namespace IMSLibrary
         #region private vars
         private const string datafile = "data.csv";
 
+        private const string backupFolderLocation = "/backups/";
+
         private List<ProductModel> Data = new List<ProductModel>();
 
         private bool isDataLoaded = false;
         #endregion
+
+        public async Task<bool> GenerateBackup()
+        {
+            try
+            {
+                using (TextWriter textWriter = new StreamWriter((backupFolderLocation + $"{Guid.NewGuid().ToString()}").fullFilePath(), false))
+                using (var csv = new CsvWriter(textWriter))
+                {
+                    csv.WriteHeader<ProductModel>();
+                    csv.NextRecord();
+                    csv.WriteRecords(Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
 
         public async Task<bool> ReloadData() {
             isDataLoaded = false;
@@ -107,7 +130,7 @@ namespace IMSLibrary
                         csv.WriteRecords(Data);
                     }
                 }
-                catch (CsvHelperException ex)
+                catch (Exception ex)
                 {
                     return false;
                 }

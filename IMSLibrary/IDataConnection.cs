@@ -11,6 +11,7 @@ namespace IMSLibrary
         Task<List<ProductModel>> LoadData();
         Task<ProductModel> RetrieveEntryByGuid(Guid Id);
         Task<bool> ReloadData();
+        Task<bool> GenerateBackup();
         bool SaveChanges(ProductModel product);
         void EnsureCreated(string file);
     }

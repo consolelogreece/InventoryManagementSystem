@@ -60,10 +60,10 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.dateAddedLabel = new System.Windows.Forms.Label();
             this.dateAddedTextbox = new System.Windows.Forms.TextBox();
-            this.productModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.createBackupButton = new System.Windows.Forms.Button();
             this.addNewButton = new System.Windows.Forms.Button();
+            this.productModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.picturePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).BeginInit();
             this.soldGroupBox.SuspendLayout();
@@ -391,10 +391,6 @@
             this.dateAddedTextbox.Size = new System.Drawing.Size(134, 25);
             this.dateAddedTextbox.TabIndex = 35;
             // 
-            // productModelBindingSource
-            // 
-            this.productModelBindingSource.DataSource = typeof(IMSLibrary.ProductModel);
-            // 
             // saveChangesButton
             // 
             this.saveChangesButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
@@ -419,7 +415,8 @@
             this.createBackupButton.TabIndex = 37;
             this.createBackupButton.Text = "Generate Backup";
             this.createBackupButton.UseVisualStyleBackColor = false;
-            this.createBackupButton.Click += new System.EventHandler(this.button1_Click_1);
+            this.createBackupButton.Click += new System.EventHandler(this.createBackupButton_Click);
+            this.createBackupButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.createBackupButton_Click);
             // 
             // addNewButton
             // 
@@ -433,6 +430,10 @@
             this.addNewButton.Text = "Add New";
             this.addNewButton.UseVisualStyleBackColor = false;
             this.addNewButton.Click += new System.EventHandler(this.addNewButton_Click);
+            // 
+            // productModelBindingSource
+            // 
+            this.productModelBindingSource.DataSource = typeof(IMSLibrary.ProductModel);
             // 
             // Main
             // 

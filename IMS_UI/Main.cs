@@ -164,11 +164,6 @@ namespace IMS_UI
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void saveChangesButton_Click(object sender, EventArgs e)
         {
             var model = new ProductModel();
@@ -194,6 +189,33 @@ namespace IMS_UI
             var addnewform = new AddProductForm();
             addnewform.Show();
             this.Hide();
+        }
+
+        private async void createBackupButton_Click(object sender, MouseEventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure you wan't to create a backup?", "Generate backup", MessageBoxButtons.YesNo);
+
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
+            bool successful = await GlobalConfig.Connections[0].GenerateBackup();
+
+            if (successful)
+            {
+                MessageBox.Show("Backup created successfully.");
+            }
+            else
+            { 
+                MessageBox.Show("Oops! Something wen't wrong");
+            }
+
+        }
+
+        private void createBackupButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
