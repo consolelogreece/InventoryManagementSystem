@@ -21,7 +21,7 @@ namespace IMS_UI
 
         private ProductModel selectedProduct;
 
-        private async void LoadDataIntoListView()
+        public async void LoadDataIntoListView()
         {
             dataListView.Items.Clear();
 
@@ -106,7 +106,6 @@ namespace IMS_UI
             }
         }
 
-
         private void pageLeft_Click(object sender, EventArgs e)
         {
             GlobalConfig.DataViewPageNo--;
@@ -184,8 +183,8 @@ namespace IMS_UI
         private void addNewButton_Click(object sender, EventArgs e)
         {
             var addnewform = new AddProductForm();
+            addnewform.UpdateListView += LoadDataIntoListView;
             addnewform.Show();
-            this.Hide();
         }
 
         private async void createBackupButton_Click(object sender, MouseEventArgs e)
@@ -240,6 +239,26 @@ namespace IMS_UI
 
             imagePathErrorLabel.Text = "";
             imagePreviewPicturebox.Image = Image.FromFile(imagePathTextbox.Text);
+        }
+
+        private void Main_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (FileUtilities.IsValidImage(files[0]))
+            {
+                imagePathErrorLabel.Text = "";
+                imagePreviewPicturebox.Image = Image.FromFile(files[0]);
+                imagePathTextbox.Text = files[0];
+            }
+        }
+
+        private void Main_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                e.Effect = DragDropEffects.All;
+            }
         }
     }
 }

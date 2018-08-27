@@ -438,6 +438,7 @@
             // 
             // Main
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -475,6 +476,8 @@
             this.Name = "Main";
             this.Text = "IMS";
             this.Load += new System.EventHandler(this.Main_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.picturePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).EndInit();
             this.soldGroupBox.ResumeLayout(false);

@@ -13,6 +13,15 @@ namespace IMS_UI
             InitializeComponent();
         }
 
+        public delegate void UpdateListViewEventHandler();
+
+        public UpdateListViewEventHandler UpdateListView;
+
+        protected virtual void OnUpdateListView()
+        {
+            UpdateListView?.Invoke();
+        }
+
         private async void addButton_Click(object sender, EventArgs e)
         {
             if (!ValidateForm()) {
@@ -53,6 +62,8 @@ namespace IMS_UI
             urlTextbox.Text = "";
             imagePathTextbox.Text = "";
             imagePreviewPicturebox.Image = null;
+            
+            OnUpdateListView();
 
         }
 
@@ -128,8 +139,7 @@ namespace IMS_UI
 
             var mainform = new Main();
 
-            mainform.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

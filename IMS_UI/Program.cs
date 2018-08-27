@@ -8,8 +8,8 @@ namespace IMS_UI
 {
     static class Program
     {
-        // TODO - clear image preview after adding item
-        // TODO - Fix so image is previewed when viewing product
+        // TODO - Enabled flaots for sell price. look into placing M after the number
+        // TODO - Use delegate  to update form main from form addproduct
         [STAThread]
         static void Main()
         {
