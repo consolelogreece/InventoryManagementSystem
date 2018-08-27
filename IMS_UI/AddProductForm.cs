@@ -52,6 +52,7 @@ namespace IMS_UI
             statusTextbox.Text = "";
             urlTextbox.Text = "";
             imagePathTextbox.Text = "";
+            imagePreviewPicturebox.Image = null;
 
         }
 
@@ -86,18 +87,21 @@ namespace IMS_UI
             if (String.IsNullOrWhiteSpace(imagePathTextbox.Text))
             {
                 imagePathErrorLabel.Text = "";
+                imagePreviewPicturebox.Image = null;
                 return;
             }
 
             if (!File.Exists(imagePathTextbox.Text))
             {
                 imagePathErrorLabel.Text = "File doesn't exist";
+                imagePreviewPicturebox.Image = null;
                 return;
             }
 
             if (!FileUtilities.IsValidImage(imagePathTextbox.Text))
             {
                 imagePathErrorLabel.Text = "Invalid file format";
+                imagePreviewPicturebox.Image = null;
                 return;
             }
 

@@ -151,11 +151,11 @@
             // 
             this.imagePathErrorLabel.AutoSize = true;
             this.imagePathErrorLabel.BackColor = System.Drawing.Color.White;
-            this.imagePathErrorLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imagePathErrorLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imagePathErrorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.imagePathErrorLabel.Location = new System.Drawing.Point(725, 466);
+            this.imagePathErrorLabel.Location = new System.Drawing.Point(734, 488);
             this.imagePathErrorLabel.Name = "imagePathErrorLabel";
-            this.imagePathErrorLabel.Size = new System.Drawing.Size(0, 17);
+            this.imagePathErrorLabel.Size = new System.Drawing.Size(0, 15);
             this.imagePathErrorLabel.TabIndex = 32;
             // 
             // urlTextbox
@@ -254,6 +254,7 @@
             this.imagePathTextbox.Name = "imagePathTextbox";
             this.imagePathTextbox.Size = new System.Drawing.Size(217, 25);
             this.imagePathTextbox.TabIndex = 26;
+            this.imagePathTextbox.TextChanged += new System.EventHandler(this.imagePathTextbox_TextChanged);
             // 
             // imagePathLabel
             // 

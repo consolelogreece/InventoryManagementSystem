@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace IMS_UI
 {
@@ -39,7 +40,6 @@ namespace IMS_UI
             }
         }
 
-
         private void Main_Load(object sender, EventArgs e)
         {
             dataListView.View = View.Details;
@@ -53,8 +53,6 @@ namespace IMS_UI
             dataListView.Columns.Add("Date Added", 90);
             LoadDataIntoListView();
         }
-
-
 
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -120,7 +118,6 @@ namespace IMS_UI
             GlobalConfig.DataViewPageNo++;
             LoadDataIntoListView();
         }
-
 
         #region Unused ui events
         private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -216,6 +213,33 @@ namespace IMS_UI
         private void createBackupButton_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void imagePathTextbox_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(imagePathTextbox.Text))
+            {
+                imagePathErrorLabel.Text = "";
+                imagePreviewPicturebox.Image = null;
+                return;
+            }
+
+            if (!File.Exists(imagePathTextbox.Text))
+            {
+                imagePathErrorLabel.Text = "File doesn't exist";
+                imagePreviewPicturebox.Image = null;
+                return;
+            }
+
+            if (!FileUtilities.IsValidImage(imagePathTextbox.Text))
+            {
+                imagePathErrorLabel.Text = "Invalid file format";
+                imagePreviewPicturebox.Image = null;
+                return;
+            }
+
+            imagePathErrorLabel.Text = "";
+            imagePreviewPicturebox.Image = Image.FromFile(imagePathTextbox.Text);
         }
     }
 }

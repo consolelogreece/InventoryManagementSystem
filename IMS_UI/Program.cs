@@ -8,6 +8,8 @@ namespace IMS_UI
 {
     static class Program
     {
+        // TODO - clear image preview after adding item
+        // TODO - Fix so image is previewed when viewing product
         [STAThread]
         static void Main()
         {
