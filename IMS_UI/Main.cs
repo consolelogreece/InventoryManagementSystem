@@ -19,7 +19,25 @@ namespace IMS_UI
             InitializeComponent();
         }
 
+        private bool ValidateForm()
+        {
+            bool isValid = true;
+
+            Decimal parsedVal;
+
+            if (String.IsNullOrWhiteSpace(nameTextbox.Text)) isValid = false;
+            if (String.IsNullOrWhiteSpace(statusTextbox.Text)) isValid = false;
+            if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) isValid = false;
+            if (!Decimal.TryParse(soldPriceTextBox.Text + "M", out parsedVal)) isValid = false;
+
+            return isValid;
+        }
+
+        #region private vars
         private ProductModel selectedProduct;
+        #endregion
+
+        #region AlterListViewMethods
 
         public async void LoadDataIntoListView()
         {
@@ -40,13 +58,42 @@ namespace IMS_UI
             }
         }
 
+        private void LoadDataIntoForm(ProductModel product)
+        {
+            nameTextbox.Text = product.Name;
+            descriptionTextbox.Text = product.Description;
+            categoryTextbox.Text = product.Category;
+            statusTextbox.Text = product.Status;
+            urlTextbox.Text = product.ProductURL;
+            imagePathTextbox.Text = product.ImagePath;
+            dateAddedTextbox.Text = product.DateAdded.ToLongDateString();
+
+
+            if (product.isSold)
+            {
+                soldCheckBox.Checked = true;
+                sellDateTextBox.Text = product.DateSold.ToLongDateString();
+                soldPriceTextBox.Text = product.SoldPrice.ToString();
+            }
+            else
+            {
+                soldCheckBox.Checked = false;
+                sellDateTextBox.Text = "";
+                soldPriceTextBox.Text = "";
+            }
+        }
+
+        #endregion
+
+        #region UI Events
+
         private void Main_Load(object sender, EventArgs e)
         {
             dataListView.View = View.Details;
             dataListView.FullRowSelect = true;
             dataListView.GridLines = true;
-            dataListView.Columns.Add("Id", 40);
-            dataListView.Columns.Add("Name",200);
+            dataListView.Columns.Add("Id", 28);
+            dataListView.Columns.Add("Name", 200);
             dataListView.Columns.Add("Category", 120);
             dataListView.Columns.Add("Status", 120);
             dataListView.Columns.Add("Sold", 60);
@@ -81,31 +128,6 @@ namespace IMS_UI
             LoadDataIntoForm(product);
         }
 
-        private void LoadDataIntoForm(ProductModel product)
-        {
-            nameTextbox.Text = product.Name;
-            descriptionTextbox.Text = product.Description;
-            categoryTextbox.Text = product.Category;
-            statusTextbox.Text = product.Status;
-            urlTextbox.Text = product.ProductURL;
-            imagePathTextbox.Text = product.ImagePath;
-            dateAddedTextbox.Text = product.DateAdded.ToLongDateString();
-
-
-            if (product.isSold)
-            {
-                soldCheckBox.Checked = true;
-                sellDateTextBox.Text = product.DateSold.ToLongDateString();
-                soldPriceTextBox.Text = product.SoldPrice.ToString();
-            }
-            else
-            {
-                soldCheckBox.Checked = false;
-                sellDateTextBox.Text = "";
-                soldPriceTextBox.Text = "";
-            }
-        }
-
         private void pageLeft_Click(object sender, EventArgs e)
         {
             GlobalConfig.DataViewPageNo--;
@@ -117,33 +139,6 @@ namespace IMS_UI
             GlobalConfig.DataViewPageNo++;
             LoadDataIntoListView();
         }
-
-        #region Unused ui events
-        private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void imagePreviewLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void poundLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void soldPriceLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void soldGroupBox_Enter(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
 
         private void soldCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -162,6 +157,12 @@ namespace IMS_UI
 
         private void saveChangesButton_Click(object sender, EventArgs e)
         {
+            if (!ValidateForm())
+            {
+                MessageBox.Show("Invalid input data");
+                return;
+            };
+
             var model = new ProductModel();
 
             model.Id = selectedProduct.Id;
@@ -178,6 +179,8 @@ namespace IMS_UI
 
             GlobalConfig.Connections[0].SaveChanges(model);
             LoadDataIntoListView();
+
+            MessageBox.Show("Changes saved successfully!");
         }
 
         private void addNewButton_Click(object sender, EventArgs e)
@@ -203,7 +206,7 @@ namespace IMS_UI
                 MessageBox.Show("Backup created successfully.");
             }
             else
-            { 
+            {
                 MessageBox.Show("Oops! Something wen't wrong");
             }
 
@@ -211,7 +214,7 @@ namespace IMS_UI
 
         private void createBackupButton_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void imagePathTextbox_TextChanged(object sender, EventArgs e)
@@ -260,5 +263,35 @@ namespace IMS_UI
                 e.Effect = DragDropEffects.All;
             }
         }
+
+
+        #region Unused ui events
+        private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imagePreviewLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void poundLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void soldPriceLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void soldGroupBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+        #endregion
+   
     }
 }

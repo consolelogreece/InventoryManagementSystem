@@ -22,13 +22,41 @@ namespace IMS_UI
             UpdateListView?.Invoke();
         }
 
+        private bool ValidateForm()
+        {
+            bool output = true;
+
+            if (String.IsNullOrWhiteSpace(nameTextbox.Text)) output = false;
+            if (String.IsNullOrWhiteSpace(statusTextbox.Text)) output = false;
+            if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = false;
+
+            return output;
+        }
+
+        private bool DoesFormContainData()
+        {
+            bool output = false;
+
+            if (!String.IsNullOrWhiteSpace(nameTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(statusTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(descriptionTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(urlTextbox.Text)) output = true;
+            if (!String.IsNullOrWhiteSpace(imagePathTextbox.Text)) output = true;
+
+            return output;
+        }
+
+        #region UI Events
+
         private async void addButton_Click(object sender, EventArgs e)
         {
-            if (!ValidateForm()) {
+            if (!ValidateForm())
+            {
                 MessageBox.Show("Please provide a name, category and status.");
                 return;
             }
-          
+
 
             ProductModel model = new ProductModel();
 
@@ -62,34 +90,9 @@ namespace IMS_UI
             urlTextbox.Text = "";
             imagePathTextbox.Text = "";
             imagePreviewPicturebox.Image = null;
-            
+
             OnUpdateListView();
 
-        }
-
-        private bool ValidateForm()
-        {
-            bool output = true;
-
-            if (String.IsNullOrWhiteSpace(nameTextbox.Text)) output = false;
-            if (String.IsNullOrWhiteSpace(statusTextbox.Text)) output = false;
-            if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = false;
-
-            return output;
-        }
-
-        private bool DoesFormContainData()
-        {
-            bool output = false;
-
-            if (!String.IsNullOrWhiteSpace(nameTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(statusTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(descriptionTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(urlTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(imagePathTextbox.Text)) output = true;
-
-            return output;
         }
 
         private void imagePathTextbox_TextChanged(object sender, EventArgs e)
@@ -129,7 +132,7 @@ namespace IMS_UI
         {
             if (DoesFormContainData())
             {
-                var confirmResult = MessageBox.Show("Are you sure you want to cancel?","Cancel", MessageBoxButtons.YesNo);
+                var confirmResult = MessageBox.Show("Are you sure you want to cancel?", "Cancel", MessageBoxButtons.YesNo);
 
                 if (confirmResult == DialogResult.No)
                 {
@@ -141,5 +144,7 @@ namespace IMS_UI
 
             this.Close();
         }
+
+        #endregion
     }
 }
