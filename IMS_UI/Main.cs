@@ -28,7 +28,7 @@ namespace IMS_UI
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) isValid = false;
             if (String.IsNullOrWhiteSpace(statusTextbox.Text)) isValid = false;
             if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) isValid = false;
-            if (!Decimal.TryParse(soldPriceTextBox.Text + "M", out parsedVal)) isValid = false;
+            if (!Decimal.TryParse(soldPriceTextBox.Text, out parsedVal)) isValid = false;
 
             return isValid;
         }
@@ -192,7 +192,7 @@ namespace IMS_UI
 
         private async void createBackupButton_Click(object sender, MouseEventArgs e)
         {
-            var confirmResult = MessageBox.Show("Are you sure you wan't to create a backup?", "Generate backup", MessageBoxButtons.YesNo);
+            var confirmResult = MessageBox.Show("Are you sure you want to create a backup?", "Generate backup", MessageBoxButtons.YesNo);
 
             if (confirmResult == DialogResult.No)
             {
@@ -291,6 +291,7 @@ namespace IMS_UI
 
         }
         #endregion
+
         #endregion
    
     }

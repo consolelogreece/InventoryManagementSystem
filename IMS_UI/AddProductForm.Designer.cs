@@ -214,6 +214,7 @@
             // 
             // AddProductForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -243,6 +244,8 @@
             this.Name = "AddProductForm";
             this.Text = "Add New";
             this.Load += new System.EventHandler(this.AddProductForm_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.AddProductForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.AddProductForm_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).EndInit();
             this.picturePanel.ResumeLayout(false);
             this.ResumeLayout(false);

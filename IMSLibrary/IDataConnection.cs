@@ -8,11 +8,11 @@ namespace IMSLibrary
     public interface IDataConnection
     {
         Task<bool> AddProductAsync(ProductModel product);
-        Task<List<ProductModel>> LoadData();
+        Task<List<ProductModel>> LoadDataAsync();
         Task<ProductModel> RetrieveEntryByGuid(Guid Id);
         Task<bool> ReloadData();
         Task<bool> GenerateBackup();
-        bool SaveChanges(ProductModel product);
+        Task<bool> SaveChanges(ProductModel product);
         void EnsureCreated(string file);
     }
 }

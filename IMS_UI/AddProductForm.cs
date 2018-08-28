@@ -49,6 +49,8 @@ namespace IMS_UI
 
         #region UI Events
 
+        
+
         private async void addButton_Click(object sender, EventArgs e)
         {
             if (!ValidateForm())
@@ -146,5 +148,25 @@ namespace IMS_UI
         }
 
         #endregion
+
+        private void AddProductForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (FileUtilities.IsValidImage(files[0]))
+            {
+                imagePathErrorLabel.Text = "";
+                imagePreviewPicturebox.Image = Image.FromFile(files[0]);
+                imagePathTextbox.Text = files[0];
+            }
+        }
+
+        private void AddProductForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                e.Effect = DragDropEffects.All;
+            }
+        }
     }
 }

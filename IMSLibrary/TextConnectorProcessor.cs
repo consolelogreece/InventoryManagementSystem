@@ -15,25 +15,5 @@ namespace IMSLibrary
         {
             return $"{ConfigurationManager.AppSettings["filePath"]}\\{fileName}";
         }
-
-        public static async Task<List<ProductModel>> LoadFileAsync(this string file)
-        {
-            try
-            {
-                if (!File.Exists(file)) return new List<ProductModel>();
-
-                using (TextReader fileReader = File.OpenText(file))
-                using (var csv = new CsvReader(fileReader))
-                {
-                    var output = csv.GetRecords<ProductModel>();
-                    return output.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                return new List<ProductModel>();
-            }
-           
-        }
     }
 }
