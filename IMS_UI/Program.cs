@@ -8,8 +8,11 @@ namespace IMS_UI
 {
     static class Program
     {
-        // TODO - Enabled flaots for sell price. look into placing M after the number
-        // TODO - Use delegate  to update form main from form addproduct
+
+        // TODO - Ensure product is selected before allowing save changes
+        // TODO - Add dropdown box for preselected categories/status
+        // TODO - Finish transaction stuff
+        // TODO - Don't store transactions in memory, as they aren't used that often. just load from hdd when needed via a file stream.
         [STAThread]
         static void Main()
         {

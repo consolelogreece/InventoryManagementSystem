@@ -52,11 +52,12 @@
             this.categoryTextbox = new System.Windows.Forms.TextBox();
             this.categoryLabel = new System.Windows.Forms.Label();
             this.soldGroupBox = new System.Windows.Forms.GroupBox();
-            this.sellDateTextBox = new System.Windows.Forms.TextBox();
-            this.dateSoldLabel = new System.Windows.Forms.Label();
-            this.soldCheckBox = new System.Windows.Forms.CheckBox();
-            this.soldPriceLabel = new System.Windows.Forms.Label();
-            this.soldPriceTextBox = new System.Windows.Forms.TextBox();
+            this.viewTransactionButton = new System.Windows.Forms.Button();
+            this.addTransactionButton = new System.Windows.Forms.Button();
+            this.currentStockText = new System.Windows.Forms.Label();
+            this.currentStockLabel = new System.Windows.Forms.Label();
+            this.initialStockText = new System.Windows.Forms.Label();
+            this.initialStockLabel = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.dateAddedLabel = new System.Windows.Forms.Label();
             this.dateAddedTextbox = new System.Windows.Forms.TextBox();
@@ -306,72 +307,79 @@
             // 
             // soldGroupBox
             // 
-            this.soldGroupBox.Controls.Add(this.sellDateTextBox);
-            this.soldGroupBox.Controls.Add(this.dateSoldLabel);
-            this.soldGroupBox.Controls.Add(this.soldCheckBox);
-            this.soldGroupBox.Controls.Add(this.soldPriceLabel);
-            this.soldGroupBox.Controls.Add(this.soldPriceTextBox);
+            this.soldGroupBox.Controls.Add(this.viewTransactionButton);
+            this.soldGroupBox.Controls.Add(this.addTransactionButton);
+            this.soldGroupBox.Controls.Add(this.currentStockText);
+            this.soldGroupBox.Controls.Add(this.currentStockLabel);
+            this.soldGroupBox.Controls.Add(this.initialStockText);
+            this.soldGroupBox.Controls.Add(this.initialStockLabel);
             this.soldGroupBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.soldGroupBox.Location = new System.Drawing.Point(643, 554);
+            this.soldGroupBox.Location = new System.Drawing.Point(643, 541);
             this.soldGroupBox.Name = "soldGroupBox";
-            this.soldGroupBox.Size = new System.Drawing.Size(502, 63);
+            this.soldGroupBox.Size = new System.Drawing.Size(502, 70);
             this.soldGroupBox.TabIndex = 33;
             this.soldGroupBox.TabStop = false;
             this.soldGroupBox.Text = "Sale";
             this.soldGroupBox.Enter += new System.EventHandler(this.soldGroupBox_Enter);
             // 
-            // sellDateTextBox
+            // viewTransactionButton
             // 
-            this.sellDateTextBox.Enabled = false;
-            this.sellDateTextBox.Location = new System.Drawing.Point(350, 22);
-            this.sellDateTextBox.Name = "sellDateTextBox";
-            this.sellDateTextBox.Size = new System.Drawing.Size(146, 29);
-            this.sellDateTextBox.TabIndex = 6;
+            this.viewTransactionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.viewTransactionButton.Location = new System.Drawing.Point(343, 18);
+            this.viewTransactionButton.Name = "viewTransactionButton";
+            this.viewTransactionButton.Size = new System.Drawing.Size(153, 46);
+            this.viewTransactionButton.TabIndex = 5;
+            this.viewTransactionButton.Text = "View Transactions";
+            this.viewTransactionButton.UseVisualStyleBackColor = true;
+            this.viewTransactionButton.Click += new System.EventHandler(this.addTransactionButton_Click);
             // 
-            // dateSoldLabel
+            // addTransactionButton
             // 
-            this.dateSoldLabel.AutoSize = true;
-            this.dateSoldLabel.Location = new System.Drawing.Point(272, 25);
-            this.dateSoldLabel.Name = "dateSoldLabel";
-            this.dateSoldLabel.Size = new System.Drawing.Size(72, 21);
-            this.dateSoldLabel.TabIndex = 5;
-            this.dateSoldLabel.Text = "Sell date:";
+            this.addTransactionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addTransactionButton.Location = new System.Drawing.Point(204, 18);
+            this.addTransactionButton.Name = "addTransactionButton";
+            this.addTransactionButton.Size = new System.Drawing.Size(133, 46);
+            this.addTransactionButton.TabIndex = 4;
+            this.addTransactionButton.Text = "Add Transaction";
+            this.addTransactionButton.UseVisualStyleBackColor = true;
+            this.addTransactionButton.Click += new System.EventHandler(this.addTransactionButton_Click);
             // 
-            // soldCheckBox
+            // currentStockText
             // 
-            this.soldCheckBox.AutoSize = true;
-            this.soldCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.soldCheckBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.soldCheckBox.Location = new System.Drawing.Point(1, 24);
-            this.soldCheckBox.Name = "soldCheckBox";
-            this.soldCheckBox.Size = new System.Drawing.Size(60, 25);
-            this.soldCheckBox.TabIndex = 4;
-            this.soldCheckBox.Text = "Sold";
-            this.soldCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.soldCheckBox.UseVisualStyleBackColor = true;
-            this.soldCheckBox.CheckedChanged += new System.EventHandler(this.soldCheckBox_CheckedChanged);
+            this.currentStockText.AutoSize = true;
+            this.currentStockText.Location = new System.Drawing.Point(98, 39);
+            this.currentStockText.Name = "currentStockText";
+            this.currentStockText.Size = new System.Drawing.Size(34, 21);
+            this.currentStockText.TabIndex = 3;
+            this.currentStockText.Text = "asd";
             // 
-            // soldPriceLabel
+            // currentStockLabel
             // 
-            this.soldPriceLabel.AutoSize = true;
-            this.soldPriceLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.soldPriceLabel.Location = new System.Drawing.Point(67, 25);
-            this.soldPriceLabel.Name = "soldPriceLabel";
-            this.soldPriceLabel.Size = new System.Drawing.Size(99, 21);
-            this.soldPriceLabel.TabIndex = 1;
-            this.soldPriceLabel.Text = "Sell Price (£):";
-            this.soldPriceLabel.Click += new System.EventHandler(this.soldPriceLabel_Click);
+            this.currentStockLabel.AutoSize = true;
+            this.currentStockLabel.Location = new System.Drawing.Point(98, 18);
+            this.currentStockLabel.Name = "currentStockLabel";
+            this.currentStockLabel.Size = new System.Drawing.Size(104, 21);
+            this.currentStockLabel.TabIndex = 2;
+            this.currentStockLabel.Text = "Current Stock";
             // 
-            // soldPriceTextBox
+            // initialStockText
             // 
-            this.soldPriceTextBox.Enabled = false;
-            this.soldPriceTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.soldPriceTextBox.Location = new System.Drawing.Point(169, 21);
-            this.soldPriceTextBox.Margin = new System.Windows.Forms.Padding(0);
-            this.soldPriceTextBox.MaxLength = 50;
-            this.soldPriceTextBox.Name = "soldPriceTextBox";
-            this.soldPriceTextBox.Size = new System.Drawing.Size(100, 29);
-            this.soldPriceTextBox.TabIndex = 0;
+            this.initialStockText.AutoSize = true;
+            this.initialStockText.Location = new System.Drawing.Point(7, 39);
+            this.initialStockText.Name = "initialStockText";
+            this.initialStockText.Size = new System.Drawing.Size(34, 21);
+            this.initialStockText.TabIndex = 1;
+            this.initialStockText.Text = "asd";
+            // 
+            // initialStockLabel
+            // 
+            this.initialStockLabel.AutoSize = true;
+            this.initialStockLabel.Location = new System.Drawing.Point(6, 18);
+            this.initialStockLabel.Name = "initialStockLabel";
+            this.initialStockLabel.Size = new System.Drawing.Size(89, 21);
+            this.initialStockLabel.TabIndex = 0;
+            this.initialStockLabel.Text = "Initial Stock";
+            this.initialStockLabel.Click += new System.EventHandler(this.initialStockLabel_Click);
             // 
             // dateAddedLabel
             // 
@@ -397,9 +405,9 @@
             this.saveChangesButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.saveChangesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveChangesButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveChangesButton.Location = new System.Drawing.Point(644, 623);
+            this.saveChangesButton.Location = new System.Drawing.Point(644, 631);
             this.saveChangesButton.Name = "saveChangesButton";
-            this.saveChangesButton.Size = new System.Drawing.Size(501, 55);
+            this.saveChangesButton.Size = new System.Drawing.Size(495, 55);
             this.saveChangesButton.TabIndex = 36;
             this.saveChangesButton.Text = "Save Changes";
             this.saveChangesButton.UseVisualStyleBackColor = false;
@@ -410,9 +418,9 @@
             this.createBackupButton.BackColor = System.Drawing.Color.White;
             this.createBackupButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.createBackupButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.createBackupButton.Location = new System.Drawing.Point(901, 692);
+            this.createBackupButton.Location = new System.Drawing.Point(898, 692);
             this.createBackupButton.Name = "createBackupButton";
-            this.createBackupButton.Size = new System.Drawing.Size(243, 55);
+            this.createBackupButton.Size = new System.Drawing.Size(241, 55);
             this.createBackupButton.TabIndex = 37;
             this.createBackupButton.Text = "Generate Backup";
             this.createBackupButton.UseVisualStyleBackColor = false;
@@ -426,7 +434,7 @@
             this.addNewButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addNewButton.Location = new System.Drawing.Point(644, 692);
             this.addNewButton.Name = "addNewButton";
-            this.addNewButton.Size = new System.Drawing.Size(243, 55);
+            this.addNewButton.Size = new System.Drawing.Size(242, 55);
             this.addNewButton.TabIndex = 38;
             this.addNewButton.Text = "Add New";
             this.addNewButton.UseVisualStyleBackColor = false;
@@ -514,16 +522,17 @@
         private System.Windows.Forms.TextBox categoryTextbox;
         private System.Windows.Forms.Label categoryLabel;
         private System.Windows.Forms.GroupBox soldGroupBox;
-        private System.Windows.Forms.Label soldPriceLabel;
-        private System.Windows.Forms.TextBox soldPriceTextBox;
-        private System.Windows.Forms.CheckBox soldCheckBox;
-        private System.Windows.Forms.TextBox sellDateTextBox;
-        private System.Windows.Forms.Label dateSoldLabel;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label dateAddedLabel;
         private System.Windows.Forms.TextBox dateAddedTextbox;
         private System.Windows.Forms.Button saveChangesButton;
         private System.Windows.Forms.Button createBackupButton;
         private System.Windows.Forms.Button addNewButton;
+        private System.Windows.Forms.Label initialStockLabel;
+        private System.Windows.Forms.Label initialStockText;
+        private System.Windows.Forms.Button viewTransactionButton;
+        private System.Windows.Forms.Button addTransactionButton;
+        private System.Windows.Forms.Label currentStockText;
+        private System.Windows.Forms.Label currentStockLabel;
     }
 }

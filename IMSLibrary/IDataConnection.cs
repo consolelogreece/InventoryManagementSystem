@@ -13,6 +13,7 @@ namespace IMSLibrary
         Task<bool> ReloadData();
         Task<bool> GenerateBackup();
         Task<bool> SaveChanges(ProductModel product);
-        void EnsureCreated(string file);
+        Task<bool> AddTransactionAsync(StockTransaction transaction);
+        void EnsureCreated();
     }
 }

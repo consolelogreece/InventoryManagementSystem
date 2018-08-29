@@ -28,7 +28,6 @@ namespace IMS_UI
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) isValid = false;
             if (String.IsNullOrWhiteSpace(statusTextbox.Text)) isValid = false;
             if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) isValid = false;
-            if (!Decimal.TryParse(soldPriceTextBox.Text, out parsedVal)) isValid = false;
 
             return isValid;
         }
@@ -43,7 +42,7 @@ namespace IMS_UI
         {
             dataListView.Items.Clear();
 
-            var products = await GlobalConfig.Connections[0].LoadData();
+            var products = await GlobalConfig.Connections[0].LoadDataAsync();
 
             var results = products.Where(x => x.Name.Contains(searchTextBox.Text)).ToArray();
 
@@ -54,7 +53,7 @@ namespace IMS_UI
             {
                 if (i > results.GetLength(0) - 1) break;
                 var p = results[i];
-                dataListView.Items.Add(new ListViewItem (new string[] {p.Id.ToString(), p.Name, p.Category, p.Status, p.isSold ? "Yes" : "No", p.DateAdded.ToShortDateString() }));
+                dataListView.Items.Add(new ListViewItem (new string[] {p.Id.ToString(), p.Name, p.Category, p.Status, "sNo", p.DateAdded.ToShortDateString() }));
             }
         }
 
@@ -67,20 +66,7 @@ namespace IMS_UI
             urlTextbox.Text = product.ProductURL;
             imagePathTextbox.Text = product.ImagePath;
             dateAddedTextbox.Text = product.DateAdded.ToLongDateString();
-
-
-            if (product.isSold)
-            {
-                soldCheckBox.Checked = true;
-                sellDateTextBox.Text = product.DateSold.ToLongDateString();
-                soldPriceTextBox.Text = product.SoldPrice.ToString();
-            }
-            else
-            {
-                soldCheckBox.Checked = false;
-                sellDateTextBox.Text = "";
-                soldPriceTextBox.Text = "";
-            }
+            
         }
 
         #endregion
@@ -96,7 +82,7 @@ namespace IMS_UI
             dataListView.Columns.Add("Name", 200);
             dataListView.Columns.Add("Category", 120);
             dataListView.Columns.Add("Status", 120);
-            dataListView.Columns.Add("Sold", 60);
+            dataListView.Columns.Add("Stock", 60);
             dataListView.Columns.Add("Date Added", 90);
             LoadDataIntoListView();
         }
@@ -122,6 +108,7 @@ namespace IMS_UI
             if (ProductId != Guid.Empty)
             {
                 product = await GlobalConfig.Connections[0].RetrieveEntryByGuid(ProductId);
+                
             }
 
             this.selectedProduct = product;
@@ -138,21 +125,6 @@ namespace IMS_UI
         {
             GlobalConfig.DataViewPageNo++;
             LoadDataIntoListView();
-        }
-
-        private void soldCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (soldCheckBox.Checked)
-            {
-                soldPriceTextBox.Enabled = true;
-                sellDateTextBox.Text = DateTime.Now.ToLongDateString();
-            }
-            else
-            {
-                soldPriceTextBox.Enabled = false;
-                soldPriceTextBox.Text = "";
-                sellDateTextBox.Text = "";
-            }
         }
 
         private void saveChangesButton_Click(object sender, EventArgs e)
@@ -173,9 +145,8 @@ namespace IMS_UI
             model.ProductURL = urlTextbox.Text;
             model.ImagePath = imagePathTextbox.Text;
             model.DateAdded = selectedProduct.DateAdded;
-            model.isSold = soldCheckBox.Checked;
-            model.SoldPrice = Decimal.Parse(soldPriceTextBox.Text);
-            model.DateSold = soldCheckBox.Checked ? DateTime.Now : DateTime.MinValue;
+            model.StockTransactions = selectedProduct.StockTransactions;
+            model.IntialStock = selectedProduct.IntialStock;
 
             GlobalConfig.Connections[0].SaveChanges(model);
             LoadDataIntoListView();
@@ -293,6 +264,28 @@ namespace IMS_UI
         #endregion
 
         #endregion
-   
+
+        private void initialStockLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void addTransactionButton_Click(object sender, EventArgs e)
+        {
+            var NewTransaction = new StockTransaction();
+
+            NewTransaction.TransactionType = "Sell";
+            NewTransaction.ParentId = selectedProduct.Id;
+            NewTransaction.Id = Guid.NewGuid();
+            NewTransaction.date = DateTime.Now;
+            NewTransaction.NProductsAddedRemoved = 1;
+            NewTransaction.Details = "Sold to test";
+
+            await GlobalConfig.Connections[0].AddTransactionAsync(NewTransaction);
+            selectedProduct.StockTransactions.Add(NewTransaction);
+
+            
+
+        }
     }
 }

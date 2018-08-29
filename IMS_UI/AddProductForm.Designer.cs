@@ -46,6 +46,10 @@
             this.urlTextbox = new System.Windows.Forms.TextBox();
             this.urlLabel = new System.Windows.Forms.Label();
             this.imagePathErrorLabel = new System.Windows.Forms.Label();
+            this.initialStockTextbox = new System.Windows.Forms.TextBox();
+            this.initialStockLabel = new System.Windows.Forms.Label();
+            this.tAddBtn = new System.Windows.Forms.Button();
+            this.tRemoveBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).BeginInit();
             this.picturePanel.SuspendLayout();
             this.SuspendLayout();
@@ -121,9 +125,9 @@
             // 
             this.addButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addButton.Location = new System.Drawing.Point(12, 571);
+            this.addButton.Location = new System.Drawing.Point(12, 630);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(713, 39);
+            this.addButton.Size = new System.Drawing.Size(361, 39);
             this.addButton.TabIndex = 7;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = false;
@@ -133,9 +137,9 @@
             // 
             this.cancelButton.BackColor = System.Drawing.Color.White;
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelButton.Location = new System.Drawing.Point(12, 627);
+            this.cancelButton.Location = new System.Drawing.Point(395, 630);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(713, 39);
+            this.cancelButton.Size = new System.Drawing.Size(319, 39);
             this.cancelButton.TabIndex = 9;
             this.cancelButton.TabStop = false;
             this.cancelButton.Text = "Cancel";
@@ -188,15 +192,15 @@
             // 
             // urlTextbox
             // 
-            this.urlTextbox.Location = new System.Drawing.Point(12, 453);
+            this.urlTextbox.Location = new System.Drawing.Point(12, 582);
             this.urlTextbox.Name = "urlTextbox";
-            this.urlTextbox.Size = new System.Drawing.Size(361, 29);
+            this.urlTextbox.Size = new System.Drawing.Size(702, 29);
             this.urlTextbox.TabIndex = 5;
             // 
             // urlLabel
             // 
             this.urlLabel.AutoSize = true;
-            this.urlLabel.Location = new System.Drawing.Point(8, 429);
+            this.urlLabel.Location = new System.Drawing.Point(8, 558);
             this.urlLabel.Name = "urlLabel";
             this.urlLabel.Size = new System.Drawing.Size(39, 21);
             this.urlLabel.TabIndex = 15;
@@ -212,6 +216,42 @@
             this.imagePathErrorLabel.Size = new System.Drawing.Size(0, 21);
             this.imagePathErrorLabel.TabIndex = 17;
             // 
+            // initialStockTextbox
+            // 
+            this.initialStockTextbox.Location = new System.Drawing.Point(12, 451);
+            this.initialStockTextbox.Name = "initialStockTextbox";
+            this.initialStockTextbox.Size = new System.Drawing.Size(361, 29);
+            this.initialStockTextbox.TabIndex = 19;
+            // 
+            // initialStockLabel
+            // 
+            this.initialStockLabel.AutoSize = true;
+            this.initialStockLabel.Location = new System.Drawing.Point(8, 427);
+            this.initialStockLabel.Name = "initialStockLabel";
+            this.initialStockLabel.Size = new System.Drawing.Size(88, 21);
+            this.initialStockLabel.TabIndex = 18;
+            this.initialStockLabel.Text = "Initial stock";
+            // 
+            // tAddBtn
+            // 
+            this.tAddBtn.Location = new System.Drawing.Point(620, 553);
+            this.tAddBtn.Name = "tAddBtn";
+            this.tAddBtn.Size = new System.Drawing.Size(75, 26);
+            this.tAddBtn.TabIndex = 20;
+            this.tAddBtn.Text = "tAdd";
+            this.tAddBtn.UseVisualStyleBackColor = true;
+            this.tAddBtn.Click += new System.EventHandler(this.tAddBtn_Click);
+            // 
+            // tRemoveBtn
+            // 
+            this.tRemoveBtn.Location = new System.Drawing.Point(520, 553);
+            this.tRemoveBtn.Name = "tRemoveBtn";
+            this.tRemoveBtn.Size = new System.Drawing.Size(84, 26);
+            this.tRemoveBtn.TabIndex = 21;
+            this.tRemoveBtn.Text = "tRemove";
+            this.tRemoveBtn.UseVisualStyleBackColor = true;
+            this.tRemoveBtn.Click += new System.EventHandler(this.tRemoveBtn_Click);
+            // 
             // AddProductForm
             // 
             this.AllowDrop = true;
@@ -219,6 +259,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(737, 681);
+            this.Controls.Add(this.tRemoveBtn);
+            this.Controls.Add(this.tAddBtn);
+            this.Controls.Add(this.initialStockTextbox);
+            this.Controls.Add(this.initialStockLabel);
             this.Controls.Add(this.imagePathErrorLabel);
             this.Controls.Add(this.urlTextbox);
             this.Controls.Add(this.urlLabel);
@@ -273,6 +317,10 @@
         private System.Windows.Forms.TextBox urlTextbox;
         private System.Windows.Forms.Label urlLabel;
         private System.Windows.Forms.Label imagePathErrorLabel;
+        private System.Windows.Forms.TextBox initialStockTextbox;
+        private System.Windows.Forms.Label initialStockLabel;
+        private System.Windows.Forms.Button tAddBtn;
+        private System.Windows.Forms.Button tRemoveBtn;
     }
 }
 

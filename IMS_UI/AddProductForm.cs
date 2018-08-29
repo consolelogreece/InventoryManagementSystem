@@ -1,5 +1,6 @@
 ﻿using IMSLibrary;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -70,9 +71,8 @@ namespace IMS_UI
             model.ProductURL = urlTextbox.Text;
             model.ImagePath = imagePathTextbox.Text;
             model.DateAdded = DateTime.Now;
-            model.isSold = false;
-            model.SoldPrice = 0;
-            model.DateSold = DateTime.MinValue;
+            model.IntialStock = int.Parse(initialStockTextbox.Text);
+            model.StockTransactions = new List<StockTransaction>();
 
             foreach (IDataConnection db in GlobalConfig.Connections)
             {
@@ -167,6 +167,16 @@ namespace IMS_UI
             {
                 e.Effect = DragDropEffects.All;
             }
+        }
+
+        private void tRemoveBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tAddBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

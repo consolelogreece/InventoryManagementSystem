@@ -14,9 +14,13 @@ namespace IMSLibrary
         #region private vars
         private const string datafile = "data.csv";
 
+        private const string transactionfile = "transactions.csv";
+
         private const string backupFolderLocation = "/backups/";
 
         private List<ProductModel> Data = new List<ProductModel>();
+
+        private List<StockTransaction> Transactions = new List<StockTransaction>();
 
         private bool isDataLoaded = false;
         #endregion
@@ -31,12 +35,23 @@ namespace IMSLibrary
             {
                 await Task.Run(() =>
                 {
-                    using (TextWriter textWriter = new StreamWriter((backupFolderLocation + $"{Guid.NewGuid().ToString()}").fullFilePath(), false))
-                    using (var csv = new CsvWriter(textWriter))
+                    var Id = Guid.NewGuid().ToString();
+                    using (TextWriter textWriterTransactions = new StreamWriter((backupFolderLocation + $"{Id} - Transactions").fullFilePath(), false))
+                    using (TextWriter textWriterData = new StreamWriter((backupFolderLocation + $"{Id} - Data ").fullFilePath(), false))
                     {
-                        csv.WriteHeader<ProductModel>();
-                        csv.NextRecord();
-                        csv.WriteRecords(Data);
+                        using (var csv = new CsvWriter(textWriterData))
+                        {
+                            csv.WriteHeader<ProductModel>();
+                            csv.NextRecord();
+                            csv.WriteRecords(Data);
+                        }
+
+                        using (var csv = new CsvWriter(textWriterTransactions))
+                        {
+                            csv.WriteHeader<StockTransaction>();
+                            csv.NextRecord();
+                            csv.WriteRecords(Transactions);
+                        }
                     }
                 }); 
             }
@@ -68,8 +83,7 @@ namespace IMSLibrary
 
             string sourceFilePath = TextConnectorProcessor.fullFilePath(datafile);
 
-            EnsureCreated(sourceFilePath);
-
+            EnsureCreated();
             try
             {
                 await Task.Run(() => 
@@ -95,14 +109,25 @@ namespace IMSLibrary
         /// Ensures the data.csv file exists. If it doesn't, create one.
         /// </summary>
         /// <param name="file">File path. Method checks this location to see if file exists.</param>
-        public void EnsureCreated(string file)
+        public void EnsureCreated()
         {
+            string file = datafile.fullFilePath();
             if (File.Exists(file)) return;
 
             using (TextWriter textWriter = new StreamWriter(file, true))
             {
                 var csv = new CsvWriter(textWriter);
                 csv.WriteHeader<ProductModel>();
+                csv.NextRecord();
+            }
+
+            file = transactionfile.fullFilePath();
+            if (File.Exists(file)) return;
+
+            using (TextWriter textWriter = new StreamWriter(file, true))
+            {
+                var csv = new CsvWriter(textWriter);
+                csv.WriteHeader<StockTransaction>();
                 csv.NextRecord();
             }
             return;
@@ -116,8 +141,10 @@ namespace IMSLibrary
         {
             if (!isDataLoaded)
             {
-                var output = await LoadFileAsync(datafile.fullFilePath());
-                Data = output;
+                var proddata = await LoadFileAsync<ProductModel>(datafile.fullFilePath());
+                var transdata = await LoadFileAsync<StockTransaction>(transactionfile.fullFilePath());
+                Data = proddata;
+                Transactions = transdata;
                 isDataLoaded = true;
             }
            
@@ -129,27 +156,27 @@ namespace IMSLibrary
         /// </summary>
         /// <param name="file">Filepath</param>
         /// <returns>List of products</returns>
-        private async Task<List<ProductModel>> LoadFileAsync(string file)
+        private async Task<List<T>> LoadFileAsync<T>(string file)
         {
-            var Products = new List<ProductModel>();
+            var Products = new List<T>();
 
             try
             {
-                if (!File.Exists(file)) return new List<ProductModel>();
+                if (!File.Exists(file)) return new List<T>();
 
                 await Task.Run(() =>
                 {
                     using (TextReader fileReader = File.OpenText(file))
                     using (var csv = new CsvReader(fileReader))
                     {
-                        var output = csv.GetRecords<ProductModel>();
+                        var output = csv.GetRecords<T>();
                         Products = output.ToList();
                     }
                 });
             }
             catch (Exception ex)
             {
-                return new List<ProductModel>();
+                return new List<T>();
             }
 
             return Products;
@@ -165,6 +192,7 @@ namespace IMSLibrary
             if (!isDataLoaded) await LoadDataAsync();
 
             ProductModel product = Data.Find(x => x.Id == Id);
+            product.StockTransactions = Transactions.FindAll(x => x.ParentId == product.Id);
 
             return product;
         }
@@ -189,25 +217,87 @@ namespace IMSLibrary
 
             if (foundId)
             {
-                try
-                {
-                    await Task.Run(() =>
-                    {
-                        using (TextWriter textWriter = new StreamWriter(datafile.fullFilePath(), false))
-                        using (var csv = new CsvWriter(textWriter))
-                        {
-                            csv.WriteHeader<ProductModel>();
-                            csv.NextRecord();
-                            csv.WriteRecords(Data);
-                        }
-                    });
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                bool dataSucceeded = await SaveChangesData(product);
+                bool transactionSucceeded = await SaveChangesTransaction(product.StockTransactions);
+                return (dataSucceeded && transactionSucceeded);
             }
+            return false;
+        }
+
+        private async Task<bool> SaveChangesTransaction(List<StockTransaction> transactions)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    using (TextWriter textWriter = new StreamWriter(transactionfile.fullFilePath(), false))
+                    using (var csv = new CsvWriter(textWriter))
+                    {
+                        csv.WriteHeader<StockTransaction>();
+                        csv.NextRecord();
+                        csv.WriteRecords(Transactions);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
             return true;
+
+        }
+
+        private async Task<bool> SaveChangesData(ProductModel product)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    using (TextWriter textWriter = new StreamWriter(datafile.fullFilePath(), false))
+                    using (var csv = new CsvWriter(textWriter))
+                    {
+                        csv.WriteHeader<ProductModel>();
+                        csv.NextRecord();
+                        csv.WriteRecords(Data);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> AddTransactionAsync(StockTransaction transaction)
+        {
+            bool isSuccessful = true;
+
+            string sourceFilePath = TextConnectorProcessor.fullFilePath(transactionfile);
+
+            EnsureCreated();
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    using (TextWriter textWriter = new StreamWriter(sourceFilePath, true))
+                    using (var csv = new CsvWriter(textWriter))
+                    {
+                        csv.WriteRecord(transaction);
+                        csv.NextRecord();
+                        Transactions.Add(transaction);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                isSuccessful = false;
+            }
+
+            return isSuccessful;
         }
     }
 }

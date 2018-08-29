@@ -36,20 +36,9 @@ namespace IMSLibrary
         /// </summary>
         public string ProductURL { get; set; }
 
-        /// <summary>
-        /// Tracks whether product has been sold.
-        /// </summary>
-        public bool isSold { get; set; }
+        public int IntialStock { get; set; }
 
-        /// <summary>
-        /// Price product sold for, if sold.
-        /// </summary>
-        public Decimal SoldPrice { get; set; }
-
-        /// <summary>
-        /// Date product sold, if sold.
-        /// </summary>
-        public DateTime DateSold { get; set; }
+        public List<StockTransaction> StockTransactions { get; set; }
 
         /// <summary>
         /// Product status, examples: "At auctuon", "listed on ebay" etc...
