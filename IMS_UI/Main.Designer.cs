@@ -65,6 +65,8 @@
             this.createBackupButton = new System.Windows.Forms.Button();
             this.addNewButton = new System.Windows.Forms.Button();
             this.productModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.pageNoLabel = new System.Windows.Forms.Label();
+            this.pageNo = new System.Windows.Forms.Label();
             this.picturePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).BeginInit();
             this.soldGroupBox.SuspendLayout();
@@ -102,7 +104,7 @@
             this.searchTextBox.Location = new System.Drawing.Point(12, 25);
             this.searchTextBox.MaxLength = 400;
             this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.Size = new System.Drawing.Size(451, 20);
+            this.searchTextBox.Size = new System.Drawing.Size(335, 20);
             this.searchTextBox.TabIndex = 2;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
@@ -130,7 +132,7 @@
             this.pageLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pageLeft.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pageLeft.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(22)))), ((int)(((byte)(22)))));
-            this.pageLeft.Location = new System.Drawing.Point(487, 25);
+            this.pageLeft.Location = new System.Drawing.Point(391, 25);
             this.pageLeft.Name = "pageLeft";
             this.pageLeft.Size = new System.Drawing.Size(41, 36);
             this.pageLeft.TabIndex = 4;
@@ -166,7 +168,7 @@
             this.urlTextbox.MaxLength = 300;
             this.urlTextbox.Name = "urlTextbox";
             this.urlTextbox.Size = new System.Drawing.Size(217, 25);
-            this.urlTextbox.TabIndex = 25;
+            this.urlTextbox.TabIndex = 5;
             // 
             // urlLabel
             // 
@@ -205,7 +207,7 @@
             this.descriptionTextbox.Multiline = true;
             this.descriptionTextbox.Name = "descriptionTextbox";
             this.descriptionTextbox.Size = new System.Drawing.Size(502, 182);
-            this.descriptionTextbox.TabIndex = 20;
+            this.descriptionTextbox.TabIndex = 2;
             // 
             // descriptionLabel
             // 
@@ -224,7 +226,7 @@
             this.nameTextbox.MaxLength = 400;
             this.nameTextbox.Name = "nameTextbox";
             this.nameTextbox.Size = new System.Drawing.Size(347, 25);
-            this.nameTextbox.TabIndex = 19;
+            this.nameTextbox.TabIndex = 1;
             // 
             // nameLabel
             // 
@@ -254,7 +256,7 @@
             this.imagePathTextbox.MaxLength = 300;
             this.imagePathTextbox.Name = "imagePathTextbox";
             this.imagePathTextbox.Size = new System.Drawing.Size(217, 25);
-            this.imagePathTextbox.TabIndex = 26;
+            this.imagePathTextbox.TabIndex = 6;
             this.imagePathTextbox.TextChanged += new System.EventHandler(this.imagePathTextbox_TextChanged);
             // 
             // imagePathLabel
@@ -274,7 +276,7 @@
             this.statusTextbox.MaxLength = 100;
             this.statusTextbox.Name = "statusTextbox";
             this.statusTextbox.Size = new System.Drawing.Size(217, 25);
-            this.statusTextbox.TabIndex = 24;
+            this.statusTextbox.TabIndex = 4;
             // 
             // statusLabel
             // 
@@ -293,7 +295,7 @@
             this.categoryTextbox.MaxLength = 100;
             this.categoryTextbox.Name = "categoryTextbox";
             this.categoryTextbox.Size = new System.Drawing.Size(217, 25);
-            this.categoryTextbox.TabIndex = 22;
+            this.categoryTextbox.TabIndex = 3;
             // 
             // categoryLabel
             // 
@@ -331,7 +333,7 @@
             this.viewTransactionButton.TabIndex = 5;
             this.viewTransactionButton.Text = "View Transactions";
             this.viewTransactionButton.UseVisualStyleBackColor = true;
-            this.viewTransactionButton.Click += new System.EventHandler(this.addTransactionButton_Click);
+            this.viewTransactionButton.Click += new System.EventHandler(this.viewTransactionsButton_click);
             // 
             // addTransactionButton
             // 
@@ -408,7 +410,7 @@
             this.saveChangesButton.Location = new System.Drawing.Point(644, 631);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(495, 55);
-            this.saveChangesButton.TabIndex = 36;
+            this.saveChangesButton.TabIndex = 7;
             this.saveChangesButton.Text = "Save Changes";
             this.saveChangesButton.UseVisualStyleBackColor = false;
             this.saveChangesButton.Click += new System.EventHandler(this.saveChangesButton_Click);
@@ -444,6 +446,27 @@
             // 
             this.productModelBindingSource.DataSource = typeof(IMSLibrary.ProductModel);
             // 
+            // pageNoLabel
+            // 
+            this.pageNoLabel.AutoSize = true;
+            this.pageNoLabel.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pageNoLabel.Location = new System.Drawing.Point(438, 31);
+            this.pageNoLabel.Name = "pageNoLabel";
+            this.pageNoLabel.Size = new System.Drawing.Size(62, 25);
+            this.pageNoLabel.TabIndex = 40;
+            this.pageNoLabel.Text = "Page: ";
+            // 
+            // pageNo
+            // 
+            this.pageNo.AutoSize = true;
+            this.pageNo.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pageNo.Location = new System.Drawing.Point(497, 31);
+            this.pageNo.Name = "pageNo";
+            this.pageNo.Size = new System.Drawing.Size(22, 25);
+            this.pageNo.TabIndex = 39;
+            this.pageNo.Text = "0";
+            this.pageNo.Click += new System.EventHandler(this.pageNo_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -451,6 +474,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1160, 759);
+            this.Controls.Add(this.pageNoLabel);
+            this.Controls.Add(this.pageNo);
             this.Controls.Add(this.addNewButton);
             this.Controls.Add(this.createBackupButton);
             this.Controls.Add(this.saveChangesButton);
@@ -534,5 +559,7 @@
         private System.Windows.Forms.Button addTransactionButton;
         private System.Windows.Forms.Label currentStockText;
         private System.Windows.Forms.Label currentStockLabel;
+        private System.Windows.Forms.Label pageNoLabel;
+        private System.Windows.Forms.Label pageNo;
     }
 }

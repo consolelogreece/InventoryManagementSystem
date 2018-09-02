@@ -50,8 +50,6 @@ namespace IMS_UI
 
         #region UI Events
 
-        
-
         private async void addButton_Click(object sender, EventArgs e)
         {
             if (!ValidateForm())
@@ -91,6 +89,7 @@ namespace IMS_UI
             statusTextbox.Text = "";
             urlTextbox.Text = "";
             imagePathTextbox.Text = "";
+            initialStockTextbox.Text = "";
             imagePreviewPicturebox.Image = null;
 
             OnUpdateListView();
@@ -147,8 +146,6 @@ namespace IMS_UI
             this.Close();
         }
 
-        #endregion
-
         private void AddProductForm_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -169,14 +166,6 @@ namespace IMS_UI
             }
         }
 
-        private void tRemoveBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tAddBtn_Click(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

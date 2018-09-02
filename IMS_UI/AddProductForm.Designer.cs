@@ -48,8 +48,6 @@
             this.imagePathErrorLabel = new System.Windows.Forms.Label();
             this.initialStockTextbox = new System.Windows.Forms.TextBox();
             this.initialStockLabel = new System.Windows.Forms.Label();
-            this.tAddBtn = new System.Windows.Forms.Button();
-            this.tRemoveBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).BeginInit();
             this.picturePanel.SuspendLayout();
             this.SuspendLayout();
@@ -128,7 +126,7 @@
             this.addButton.Location = new System.Drawing.Point(12, 630);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(361, 39);
-            this.addButton.TabIndex = 7;
+            this.addButton.TabIndex = 8;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = false;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
@@ -195,7 +193,7 @@
             this.urlTextbox.Location = new System.Drawing.Point(12, 582);
             this.urlTextbox.Name = "urlTextbox";
             this.urlTextbox.Size = new System.Drawing.Size(702, 29);
-            this.urlTextbox.TabIndex = 5;
+            this.urlTextbox.TabIndex = 7;
             // 
             // urlLabel
             // 
@@ -221,7 +219,7 @@
             this.initialStockTextbox.Location = new System.Drawing.Point(12, 451);
             this.initialStockTextbox.Name = "initialStockTextbox";
             this.initialStockTextbox.Size = new System.Drawing.Size(361, 29);
-            this.initialStockTextbox.TabIndex = 19;
+            this.initialStockTextbox.TabIndex = 5;
             // 
             // initialStockLabel
             // 
@@ -232,26 +230,6 @@
             this.initialStockLabel.TabIndex = 18;
             this.initialStockLabel.Text = "Initial stock";
             // 
-            // tAddBtn
-            // 
-            this.tAddBtn.Location = new System.Drawing.Point(620, 553);
-            this.tAddBtn.Name = "tAddBtn";
-            this.tAddBtn.Size = new System.Drawing.Size(75, 26);
-            this.tAddBtn.TabIndex = 20;
-            this.tAddBtn.Text = "tAdd";
-            this.tAddBtn.UseVisualStyleBackColor = true;
-            this.tAddBtn.Click += new System.EventHandler(this.tAddBtn_Click);
-            // 
-            // tRemoveBtn
-            // 
-            this.tRemoveBtn.Location = new System.Drawing.Point(520, 553);
-            this.tRemoveBtn.Name = "tRemoveBtn";
-            this.tRemoveBtn.Size = new System.Drawing.Size(84, 26);
-            this.tRemoveBtn.TabIndex = 21;
-            this.tRemoveBtn.Text = "tRemove";
-            this.tRemoveBtn.UseVisualStyleBackColor = true;
-            this.tRemoveBtn.Click += new System.EventHandler(this.tRemoveBtn_Click);
-            // 
             // AddProductForm
             // 
             this.AllowDrop = true;
@@ -259,8 +237,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(737, 681);
-            this.Controls.Add(this.tRemoveBtn);
-            this.Controls.Add(this.tAddBtn);
             this.Controls.Add(this.initialStockTextbox);
             this.Controls.Add(this.initialStockLabel);
             this.Controls.Add(this.imagePathErrorLabel);
@@ -319,8 +295,6 @@
         private System.Windows.Forms.Label imagePathErrorLabel;
         private System.Windows.Forms.TextBox initialStockTextbox;
         private System.Windows.Forms.Label initialStockLabel;
-        private System.Windows.Forms.Button tAddBtn;
-        private System.Windows.Forms.Button tRemoveBtn;
     }
 }
 

@@ -1,0 +1,148 @@
+﻿using IMSLibrary;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace IMS_UI
+{
+    public partial class Transactions : Form
+    {
+        #region Private vars
+
+        private ITransactionManager _TransactionManager;
+
+        private ProductModel _product;
+
+        private StockTransaction _selectedTransaction;
+
+        #endregion
+
+        #region Constructors
+
+        public Transactions(ITransactionManager transactionManager, ProductModel product)
+        {
+            _TransactionManager = transactionManager;
+
+            _product = product;
+            
+            InitializeComponent();
+        }
+
+        public Transactions(ITransactionManager transactionManager)
+        {
+            _TransactionManager = transactionManager;
+
+            InitializeComponent();
+        }
+
+        #endregion
+
+        private async Task LoadDataIntoListView()
+        {
+            transactionsListView.Items.Clear();
+
+            var results = await _TransactionManager.GetTransactionHistory();
+
+            foreach (var r in results)
+            {
+                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.NProductsAddedRemoved.ToString(), r.Price.ToString(), r.date.ToLongDateString() }));
+            }
+        }
+
+        #region UI Events
+
+        private void Transactions_Load(object sender, EventArgs e)
+        {
+            transactionsListView.View = View.Details;
+            transactionsListView.FullRowSelect = true;
+            transactionsListView.GridLines = true;
+            transactionsListView.Columns.Add("Id", 28);
+            transactionsListView.Columns.Add("PId", 28);
+            transactionsListView.Columns.Add("Type", 80);
+            transactionsListView.Columns.Add("Amount", 60);
+            transactionsListView.Columns.Add("Price", 120);
+            transactionsListView.Columns.Add("Date Added", 90);
+
+            LoadDataIntoListView();
+
+        }
+
+        private async void transactionsListView_SelectedIndexChanged(object sender, EventArgs e)
+        { }
+
+        private async void transactionsListView_DoubleClick(object sender, EventArgs e)
+        {
+
+            ProductModel product = _product;
+
+            if (product == null)
+            {
+                Guid ProductId = Guid.Empty;
+                Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[1].Text, out ProductId);
+                product = await GlobalConfig.Connections[0].RetrieveEntryByGuid(ProductId);
+            }
+
+
+            Guid TransactionId = Guid.Empty;
+            Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[0].Text, out TransactionId);
+
+            StockTransaction transaction = await _TransactionManager.GetStockTransactionById(TransactionId);
+
+            _selectedTransaction = transaction;
+
+            nameParentProductTextbox.Text = product.Name;
+            transactionDateTextbox.Text = transaction.date.ToLongDateString();
+            transactionDescriptionTextbox.Text = transaction.Details;
+            transactionTypeCombobox.Text = transaction.TransactionType;
+            transactionPriceTextbox.Text = transaction.Price.ToString();
+            nBoughtSoldTextbox.Text = transaction.NProductsAddedRemoved.ToString();
+        }
+
+        #endregion
+
+        private async void saveChangesButton_Click(object sender, EventArgs e)
+        {
+            var model = new StockTransaction();
+
+            model.date = _selectedTransaction.date;
+            model.Details = transactionDescriptionTextbox.Text;
+            model.Id = _selectedTransaction.Id;
+            model.NProductsAddedRemoved = int.Parse(nBoughtSoldTextbox.Text);
+            model.ParentId = _selectedTransaction.ParentId;
+            model.Price = Decimal.Parse(transactionPriceTextbox.Text);
+            model.TransactionType = transactionTypeCombobox.Text;
+
+            await _TransactionManager.SaveChangesTransaction(model);
+
+            LoadDataIntoListView();
+
+            MessageBox.Show("Changes saved successfully!");
+        }
+
+        private async void pageRight_Click(object sender, EventArgs e)
+        {
+            // change page no, and edit label on form reflecting so.
+            _TransactionManager.ChangePage(1);
+
+            await LoadDataIntoListView();
+
+            pageNo.Text = _TransactionManager.GetPageNo().ToString();
+        }
+
+        private async void pageLeft_Click(object sender, EventArgs e)
+        {
+            // change page no, and edit label on form reflecting so.
+            _TransactionManager.ChangePage(-1);
+
+            await LoadDataIntoListView();
+
+            pageNo.Text = _TransactionManager.GetPageNo().ToString();
+        }
+    }
+}

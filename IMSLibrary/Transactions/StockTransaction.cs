@@ -18,6 +18,8 @@ namespace IMSLibrary
 
         public int NProductsAddedRemoved { get; set; }
 
+        public Decimal Price { get; set; }
+
         public string Details { get; set; }
     }
 }

@@ -13,6 +13,12 @@ namespace IMS_UI
         // TODO - Add dropdown box for preselected categories/status
         // TODO - Finish transaction stuff
         // TODO - Don't store transactions in memory, as they aren't used that often. just load from hdd when needed via a file stream.
+        // TODO - Validate all data before doing anything with it
+        // TODO - Create overlaod on transactions form where i pass in the data that needs to be viewed. regular constructor shows entire history
+        // TODO - Move data page tracker from global config into main form
+        // TODO - Seperate transactions and products entirely. save changes should just save their own, generate backup calls individuals
+        //             - Initialized transactionmanager in globalconfig? or just replace with filestream functionality so no need to store in memory
+        // TODO - work on pagination. pages dont show properly
         [STAThread]
         static void Main()
         {

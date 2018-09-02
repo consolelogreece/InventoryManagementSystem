@@ -46,10 +46,13 @@ namespace IMS_UI
 
             var results = products.Where(x => x.Name.Contains(searchTextBox.Text)).ToArray();
 
-            if (GlobalConfig.DataViewPageNo > (results.GetLength(0) - 1) / GlobalConfig.resultsPerPage) GlobalConfig.DataViewPageNo = results.GetLength(0) - 1 / GlobalConfig.resultsPerPage;
-            if (GlobalConfig.DataViewPageNo < 0) GlobalConfig.DataViewPageNo = 0;
+            if (results.GetLength(0) < GlobalConfig.resultsPerPage) GlobalConfig.DataViewPageNo = 0;
+            else if (GlobalConfig.DataViewPageNo < 0) GlobalConfig.DataViewPageNo = 0;
+            else if (GlobalConfig.DataViewPageNo > (results.GetLength(0) - 1) / GlobalConfig.resultsPerPage) GlobalConfig.DataViewPageNo = (results.GetLength(0) - 1) / GlobalConfig.resultsPerPage;
 
-            for (int i = GlobalConfig.DataViewPageNo; i < GlobalConfig.DataViewPageNo + GlobalConfig.resultsPerPage; i++)
+            pageNo.Text = GlobalConfig.DataViewPageNo.ToString();
+
+            for (int i = GlobalConfig.DataViewPageNo * GlobalConfig.resultsPerPage; i < (GlobalConfig.DataViewPageNo * GlobalConfig.resultsPerPage) + GlobalConfig.resultsPerPage; i++)
             {
                 if (i > results.GetLength(0) - 1) break;
                 var p = results[i];
@@ -178,7 +181,7 @@ namespace IMS_UI
             }
             else
             {
-                MessageBox.Show("Oops! Something wen't wrong");
+                MessageBox.Show("Oops! Something went wrong");
             }
 
         }
@@ -235,6 +238,33 @@ namespace IMS_UI
             }
         }
 
+        private void initialStockLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void addTransactionButton_Click(object sender, EventArgs e)
+        {
+            var NewTransaction = new StockTransaction();
+
+            NewTransaction.TransactionType = "Sell";
+            NewTransaction.ParentId = selectedProduct.Id;
+            NewTransaction.Id = Guid.NewGuid();
+            NewTransaction.date = DateTime.Now;
+            NewTransaction.NProductsAddedRemoved = 1;
+            NewTransaction.Details = "Sold to test";
+
+            await GlobalConfig.Connections[0].AddTransactionAsync(NewTransaction);
+            selectedProduct.StockTransactions.Add(NewTransaction); 
+
+        }
+
+        private void viewTransactionsButton_click(object sender, EventArgs e)
+        {
+            var transactionform = new Transactions(new TextTransactionManager(), selectedProduct);
+            transactionform.Show();
+        }
+
 
         #region Unused ui events
         private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -265,26 +295,8 @@ namespace IMS_UI
 
         #endregion
 
-        private void initialStockLabel_Click(object sender, EventArgs e)
+        private void pageNo_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private async void addTransactionButton_Click(object sender, EventArgs e)
-        {
-            var NewTransaction = new StockTransaction();
-
-            NewTransaction.TransactionType = "Sell";
-            NewTransaction.ParentId = selectedProduct.Id;
-            NewTransaction.Id = Guid.NewGuid();
-            NewTransaction.date = DateTime.Now;
-            NewTransaction.NProductsAddedRemoved = 1;
-            NewTransaction.Details = "Sold to test";
-
-            await GlobalConfig.Connections[0].AddTransactionAsync(NewTransaction);
-            selectedProduct.StockTransactions.Add(NewTransaction);
-
-            
 
         }
     }
