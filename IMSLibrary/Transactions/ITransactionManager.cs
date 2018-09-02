@@ -11,7 +11,11 @@ namespace IMSLibrary
         Task<List<StockTransaction>> GetTransactionHistory(ProductModel product);
         Task<List<StockTransaction>> GetTransactionHistory();
         Task<StockTransaction> GetStockTransactionById(Guid id);
-        Task<bool> SaveChangesTransaction(StockTransaction transaction);
+        Task LoadTransactionsAsync();
+        Task SaveTransactionAsync(StockTransaction transaction);
+        Task EnsureCreated();
+        Task EnsureLoaded();
+        Task GenerateBackup(string backupFolderLocation);
         void ChangePage(int n);
         int GetPageNo();
     }

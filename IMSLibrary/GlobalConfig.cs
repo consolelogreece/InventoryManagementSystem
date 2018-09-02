@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMSLibrary.Products;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace IMSLibrary
         {
             if (textFiles)
             {
-                TextConnector text = new TextConnector();
+                TextConnector text = new TextConnector(new TextTransactionManager(), new TextProductManager());
                 Connections.Add(text);
             }
         }

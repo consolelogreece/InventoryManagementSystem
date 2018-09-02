@@ -11,62 +11,53 @@ namespace IMSLibrary
     public class TextTransactionManager : ITransactionManager
     {
         #region Private vars
-        private const string transactionfile = "transactions.csv";
+        private const string _transactionfile = "transactions.csv";
 
-        private List<StockTransaction> _History;
+        private List<StockTransaction> _transactions;
 
-        private int _PageNo = 0;
+        private int _pageNo = 0;
 
         private bool _hasLoaded = false;
         #endregion  
 
-        private async Task<bool> LoadTransactionsIntoMemory()
+        public async Task LoadTransactionsAsync()
         {
-            string file = transactionfile.fullFilePath();
+            string file = _transactionfile.fullFilePath();
 
-            try
+            await Task.Run(() =>
             {
-                if (!File.Exists(file)) return false;
-
-                await Task.Run(() =>
+                using (TextReader fileReader = File.OpenText(file))
+                using (var csv = new CsvReader(fileReader))
                 {
-                    using (TextReader fileReader = File.OpenText(file))
-                    using (var csv = new CsvReader(fileReader))
-                    {
-                        var output = csv.GetRecords<StockTransaction>();
-                        _History = output.OrderByDescending(x => x.date).ToList();
-                        _hasLoaded = true;
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            return true;
+                    var output = csv.GetRecords<StockTransaction>();
+                    _transactions = output.OrderByDescending(x => x.DateAdded).ToList();
+                    _hasLoaded = true;
+                }
+            });     
         }
 
         private void PageNoHandler(int resultsCount)
         {
   
-            if (resultsCount < GlobalConfig.resultsPerPage) _PageNo = 0;
-            else if (_PageNo < 0) _PageNo = 0;
-            else if (_PageNo > (resultsCount - 1) / GlobalConfig.resultsPerPage) _PageNo = (int)Math.Ceiling((double)((resultsCount - 1) / GlobalConfig.resultsPerPage));
+            if (resultsCount < GlobalConfig.resultsPerPage) _pageNo = 0;
+            else if (_pageNo < 0) _pageNo = 0;
+            else if (_pageNo > (resultsCount - 1) / GlobalConfig.resultsPerPage) _pageNo = (int)Math.Ceiling((double)((resultsCount - 1) / GlobalConfig.resultsPerPage));
         }
 
         public async Task<List<StockTransaction>> GetTransactionHistory(ProductModel product)
         {
-            if (!_hasLoaded) await LoadTransactionsIntoMemory();
+            await EnsureCreated();
+            await EnsureLoaded();
 
-            int totResults = _History.Where(x => x.ParentId == product.Id).Count();
+            int totResults = _transactions.Where(x => x.ParentId == product.Id).Count();
 
             PageNoHandler(totResults);
 
-            int skipCount = (_PageNo * GlobalConfig.resultsPerPage) > totResults
-                ? (_PageNo * GlobalConfig.resultsPerPage) % GlobalConfig.resultsPerPage
-                : _PageNo * GlobalConfig.resultsPerPage;
+            int skipCount = (_pageNo * GlobalConfig.resultsPerPage) > totResults
+                ? (_pageNo * GlobalConfig.resultsPerPage) % GlobalConfig.resultsPerPage
+                : _pageNo * GlobalConfig.resultsPerPage;
 
-            var results = _History.Where(x => x.ParentId == product.Id)
+            var results = _transactions.Where(x => x.ParentId == product.Id)
                 .Skip(skipCount)
                 .Take(GlobalConfig.resultsPerPage)
                 .ToList();
@@ -76,15 +67,16 @@ namespace IMSLibrary
 
         public async Task<List<StockTransaction>> GetTransactionHistory()
         {
-            if (!_hasLoaded) await LoadTransactionsIntoMemory();
+            await EnsureCreated();
+            await EnsureLoaded();
 
-            PageNoHandler(_History.Count);
+            PageNoHandler(_transactions.Count);
 
-            int skipCount = (_PageNo * GlobalConfig.resultsPerPage) > _History.Count
-                ? (_PageNo * GlobalConfig.resultsPerPage) % GlobalConfig.resultsPerPage
-                : _PageNo * GlobalConfig.resultsPerPage;
+            int skipCount = (_pageNo * GlobalConfig.resultsPerPage) > _transactions.Count
+                ? (_pageNo * GlobalConfig.resultsPerPage) % GlobalConfig.resultsPerPage
+                : _pageNo * GlobalConfig.resultsPerPage;
 
-            var results = _History.Skip(skipCount)
+            var results = _transactions.Skip(skipCount)
                 .Take(GlobalConfig.resultsPerPage)
                 .ToList();
 
@@ -93,57 +85,94 @@ namespace IMSLibrary
 
         public async Task<StockTransaction> GetStockTransactionById(Guid Id)
         {
-            if (!_hasLoaded) await LoadTransactionsIntoMemory();
+            await EnsureCreated();
+            await EnsureLoaded(); ;
 
-            return _History.Find(x => x.Id == Id);
+            return _transactions.Find(x => x.Id == Id);
         }
 
-        public async Task<bool> SaveChangesTransaction(StockTransaction transaction)
+        public async Task SaveTransactionAsync(StockTransaction transaction)
         {
+            await EnsureCreated();
+            await EnsureLoaded();
+
             bool foundId = false;
-            Guid idOfTransactionToEdit = transaction.Id;
-            for (int i = 0; i < _History.Count; i++)
+            Guid idOfProductToEdit = transaction.Id;
+            for (int i = 0; i < _transactions.Count; i++)
             {
-                if (_History[i].Id == idOfTransactionToEdit)
+                if (_transactions[i].Id == idOfProductToEdit)
                 {
                     foundId = true;
-                    _History[i] = transaction;
+                    _transactions[i] = transaction;
                 }
             }
 
-            if (!foundId) return false;
+            if (!foundId) _transactions.Add(transaction);
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                using (TextWriter textWriter = new StreamWriter(_transactionfile.fullFilePath(), false))
+                using (var csv = new CsvWriter(textWriter))
                 {
-                    using (TextWriter textWriter = new StreamWriter(transactionfile.fullFilePath(), false))
-                    using (var csv = new CsvWriter(textWriter))
-                    {
-                        csv.WriteHeader<StockTransaction>();
-                        csv.NextRecord();
-                        csv.WriteRecords(_History);
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-            return true;
+                    csv.WriteHeader<StockTransaction>();
+                    csv.NextRecord();
+                    csv.WriteRecords(_transactions);
+                }
+            });
         }
 
         public void ChangePage(int n)
         {
-            _PageNo += n;
+            _pageNo += n;
 
-            if (_PageNo < 0) _PageNo = 0;
+            if (_pageNo < 0) _pageNo = 0;
         }
 
         public int GetPageNo()
         {
-            return _PageNo;
+            return _pageNo;
+        }
+
+        public async Task EnsureCreated()
+        {
+            string file = _transactionfile.fullFilePath();
+
+            if (File.Exists(file)) return;
+
+            await Task.Run(() =>
+            {
+                using (TextWriter textWriter = new StreamWriter(file, true))
+                {
+                    var csv = new CsvWriter(textWriter);
+                    csv.WriteHeader<StockTransaction>();
+                    csv.NextRecord();
+                }
+            });
+        }
+
+        public async Task GenerateBackup(string backupFolderLocation)
+        {
+            await EnsureCreated();
+            await EnsureLoaded();
+            await Task.Run(() =>
+            {
+                var Id = Guid.NewGuid().ToString();
+                using (TextWriter textWriter = new StreamWriter((backupFolderLocation + $"{Id} - Transactions ").fullFilePath(), false))
+                {
+                    using (var csv = new CsvWriter(textWriter))
+                    {
+                        csv.WriteHeader<StockTransaction>();
+                        csv.NextRecord();
+                        csv.WriteRecords(_transactions);
+                    }
+
+                }
+            });
+        }
+
+        public async Task EnsureLoaded()
+        {
+            if (!_hasLoaded) await LoadTransactionsAsync();
         }
     }
 }

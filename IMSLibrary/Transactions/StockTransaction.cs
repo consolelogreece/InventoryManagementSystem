@@ -10,7 +10,7 @@ namespace IMSLibrary
     {
         public Guid Id { get; set; }
 
-        public DateTime date { get; set; }
+        public DateTime DateAdded { get; set; }
 
         public string TransactionType { get; set; }
 

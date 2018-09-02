@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMSLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,10 @@ namespace IMS_UI
         // TODO - Move data page tracker from global config into main form
         // TODO - Seperate transactions and products entirely. save changes should just save their own, generate backup calls individuals
         //             - Initialized transactionmanager in globalconfig? or just replace with filestream functionality so no need to store in memory
-        // TODO - work on pagination. pages dont show properly
+        // TODO - ADD product and transaction should insert intoto start of file
+        // TODO - Order by descending on both transactions and products
+        // TODO - Look into where fetching product doesn't also fetch transactions
+
         [STAThread]
         static void Main()
         {
@@ -27,7 +31,7 @@ namespace IMS_UI
 
             IMSLibrary.GlobalConfig.InitializeConnections(true);
 
-            Application.Run(new Main());
+            Application.Run(new Main(GlobalConfig.Connections[0].GetProductManager()));
         }
     }
 }

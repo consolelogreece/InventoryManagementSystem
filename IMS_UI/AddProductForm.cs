@@ -1,4 +1,5 @@
 ﻿using IMSLibrary;
+using IMSLibrary.Products;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,9 +10,11 @@ namespace IMS_UI
 {
     public partial class AddProductForm : Form
     {
-        public AddProductForm()
+        private IProductManager _productManager;
+        public AddProductForm(IProductManager productManager)
         {
             InitializeComponent();
+            _productManager = productManager;
         }
 
         public delegate void UpdateListViewEventHandler();
@@ -72,17 +75,16 @@ namespace IMS_UI
             model.IntialStock = int.Parse(initialStockTextbox.Text);
             model.StockTransactions = new List<StockTransaction>();
 
-            foreach (IDataConnection db in GlobalConfig.Connections)
+            try
             {
-                bool succeeded = await db.AddProductAsync(model);
-
-                if (!succeeded)
-                {
-                    MessageBox.Show("Oops, something wen't wrong! Please try again.");
-                    return;
-                }
+                await _productManager.AddProductAsync(model);
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Oops, something wen't wrong! Please try again.");
+                return;
+            }
+            
             nameTextbox.Text = "";
             descriptionTextbox.Text = "";
             categoryTextbox.Text = "";
@@ -93,7 +95,6 @@ namespace IMS_UI
             imagePreviewPicturebox.Image = null;
 
             OnUpdateListView();
-
         }
 
         private void imagePathTextbox_TextChanged(object sender, EventArgs e)
@@ -140,9 +141,6 @@ namespace IMS_UI
                     return;
                 }
             }
-
-            var mainform = new Main();
-
             this.Close();
         }
 

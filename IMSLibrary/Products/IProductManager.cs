@@ -8,9 +8,15 @@ namespace IMSLibrary.Products
 {
     public interface IProductManager
     {
-        Task<List<ProductModel>> GetTransactionHistory(ProductModel product);
-        Task<List<StockTransaction>> GetTransactionHistory();
-        Task<StockTransaction> GetStockTransactionById(Guid id);
-        Task<bool> SaveChangesTransaction(StockTransaction transaction);
+        Task<ProductModel> GetProductByGuid(Guid Id);
+        Task AddProductAsync(ProductModel product);
+        Task SaveProductAsync(ProductModel product);
+        Task LoadProductsAsync();
+        Task EnsureCreated();
+        Task GenerateBackup(string backupFolderLocation);
+        Task<List<ProductModel>> GetProducts();
+        Task EnsureLoaded();
+        void ChangePage(int n);
+        int GetPageNo();
     }
 }

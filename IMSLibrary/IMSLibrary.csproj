@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Products\IProductManager.cs" />
+    <Compile Include="Products\TextProductManager.cs" />
     <Compile Include="Shared\FileUtilities.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Connectors\IDataConnection.cs" />

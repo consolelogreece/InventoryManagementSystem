@@ -1,4 +1,5 @@
 ﻿using IMSLibrary;
+using IMSLibrary.Products;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,9 @@ namespace IMS_UI
     {
         #region Private vars
 
-        private ITransactionManager _TransactionManager;
+        private ITransactionManager _transactionManager;
+
+        private IProductManager _productManager;
 
         private ProductModel _product;
 
@@ -25,18 +28,22 @@ namespace IMS_UI
 
         #region Constructors
 
-        public Transactions(ITransactionManager transactionManager, ProductModel product)
+        public Transactions(ITransactionManager transactionManager, IProductManager productManager, ProductModel product)
         {
-            _TransactionManager = transactionManager;
+            _transactionManager = transactionManager;
+
+            _productManager = productManager;
 
             _product = product;
             
             InitializeComponent();
         }
 
-        public Transactions(ITransactionManager transactionManager)
+        public Transactions(ITransactionManager transactionManager, IProductManager productManager)
         {
-            _TransactionManager = transactionManager;
+            _transactionManager = transactionManager;
+
+            _productManager = productManager;
 
             InitializeComponent();
         }
@@ -47,11 +54,11 @@ namespace IMS_UI
         {
             transactionsListView.Items.Clear();
 
-            var results = await _TransactionManager.GetTransactionHistory();
+            var results = await _transactionManager.GetTransactionHistory();
 
             foreach (var r in results)
             {
-                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.NProductsAddedRemoved.ToString(), r.Price.ToString(), r.date.ToLongDateString() }));
+                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.NProductsAddedRemoved.ToString(), r.Price.ToString(), r.DateAdded.ToLongDateString() }));
             }
         }
 
@@ -84,20 +91,22 @@ namespace IMS_UI
             if (product == null)
             {
                 Guid ProductId = Guid.Empty;
+
                 Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[1].Text, out ProductId);
-                product = await GlobalConfig.Connections[0].RetrieveEntryByGuid(ProductId);
+
+                product = await _productManager.GetProductByGuid(ProductId);
             }
 
 
             Guid TransactionId = Guid.Empty;
             Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[0].Text, out TransactionId);
 
-            StockTransaction transaction = await _TransactionManager.GetStockTransactionById(TransactionId);
+            StockTransaction transaction = await _transactionManager.GetStockTransactionById(TransactionId);
 
             _selectedTransaction = transaction;
 
             nameParentProductTextbox.Text = product.Name;
-            transactionDateTextbox.Text = transaction.date.ToLongDateString();
+            transactionDateTextbox.Text = transaction.DateAdded.ToLongDateString();
             transactionDescriptionTextbox.Text = transaction.Details;
             transactionTypeCombobox.Text = transaction.TransactionType;
             transactionPriceTextbox.Text = transaction.Price.ToString();
@@ -110,7 +119,7 @@ namespace IMS_UI
         {
             var model = new StockTransaction();
 
-            model.date = _selectedTransaction.date;
+            model.DateAdded = _selectedTransaction.DateAdded;
             model.Details = transactionDescriptionTextbox.Text;
             model.Id = _selectedTransaction.Id;
             model.NProductsAddedRemoved = int.Parse(nBoughtSoldTextbox.Text);
@@ -118,9 +127,9 @@ namespace IMS_UI
             model.Price = Decimal.Parse(transactionPriceTextbox.Text);
             model.TransactionType = transactionTypeCombobox.Text;
 
-            await _TransactionManager.SaveChangesTransaction(model);
+            await _transactionManager.SaveTransactionAsync(model);
 
-            LoadDataIntoListView();
+            await LoadDataIntoListView();
 
             MessageBox.Show("Changes saved successfully!");
         }
@@ -128,21 +137,21 @@ namespace IMS_UI
         private async void pageRight_Click(object sender, EventArgs e)
         {
             // change page no, and edit label on form reflecting so.
-            _TransactionManager.ChangePage(1);
+            _transactionManager.ChangePage(1);
 
             await LoadDataIntoListView();
 
-            pageNo.Text = _TransactionManager.GetPageNo().ToString();
+            pageNo.Text = _transactionManager.GetPageNo().ToString();
         }
 
         private async void pageLeft_Click(object sender, EventArgs e)
         {
             // change page no, and edit label on form reflecting so.
-            _TransactionManager.ChangePage(-1);
+            _transactionManager.ChangePage(-1);
 
             await LoadDataIntoListView();
 
-            pageNo.Text = _TransactionManager.GetPageNo().ToString();
+            pageNo.Text = _transactionManager.GetPageNo().ToString();
         }
     }
 }

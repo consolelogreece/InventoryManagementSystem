@@ -9,13 +9,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using IMSLibrary.Products;
 
 namespace IMS_UI
 {
     public partial class Main : Form
     {
-        public Main()
+  
+        #region private vars
+        private ProductModel _selectedProduct;
+
+        private IProductManager _productManager;
+        #endregion
+
+        public Main(IProductManager productManager)
         {
+            _productManager = productManager;
             InitializeComponent();
         }
 
@@ -32,9 +41,6 @@ namespace IMS_UI
             return isValid;
         }
 
-        #region private vars
-        private ProductModel selectedProduct;
-        #endregion
 
         #region AlterListViewMethods
 
@@ -42,11 +48,11 @@ namespace IMS_UI
         {
             dataListView.Items.Clear();
 
-            var products = await GlobalConfig.Connections[0].LoadDataAsync();
-
+            var products = await _productManager.GetProducts();
             var results = products.Where(x => x.Name.Contains(searchTextBox.Text)).ToArray();
 
             if (results.GetLength(0) < GlobalConfig.resultsPerPage) GlobalConfig.DataViewPageNo = 0;
+
             else if (GlobalConfig.DataViewPageNo < 0) GlobalConfig.DataViewPageNo = 0;
             else if (GlobalConfig.DataViewPageNo > (results.GetLength(0) - 1) / GlobalConfig.resultsPerPage) GlobalConfig.DataViewPageNo = (results.GetLength(0) - 1) / GlobalConfig.resultsPerPage;
 
@@ -92,7 +98,7 @@ namespace IMS_UI
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            await GlobalConfig.Connections[0].ReloadData();
+            await GlobalConfig.Connections[0].ReloadData(false, true);
             LoadDataIntoListView();
         }
 
@@ -110,11 +116,10 @@ namespace IMS_UI
 
             if (ProductId != Guid.Empty)
             {
-                product = await GlobalConfig.Connections[0].RetrieveEntryByGuid(ProductId);
-                
+                product = await _productManager.GetProductByGuid(ProductId);          
             }
 
-            this.selectedProduct = product;
+            this._selectedProduct = product;
             LoadDataIntoForm(product);
         }
 
@@ -130,7 +135,7 @@ namespace IMS_UI
             LoadDataIntoListView();
         }
 
-        private void saveChangesButton_Click(object sender, EventArgs e)
+        private async void saveChangesButton_Click(object sender, EventArgs e)
         {
             if (!ValidateForm())
             {
@@ -140,18 +145,19 @@ namespace IMS_UI
 
             var model = new ProductModel();
 
-            model.Id = selectedProduct.Id;
+            model.Id = _selectedProduct.Id;
             model.Name = nameTextbox.Text;
             model.Description = descriptionTextbox.Text;
             model.Category = categoryTextbox.Text;
             model.Status = statusTextbox.Text;
             model.ProductURL = urlTextbox.Text;
             model.ImagePath = imagePathTextbox.Text;
-            model.DateAdded = selectedProduct.DateAdded;
-            model.StockTransactions = selectedProduct.StockTransactions;
-            model.IntialStock = selectedProduct.IntialStock;
+            model.DateAdded = _selectedProduct.DateAdded;
+            model.StockTransactions = _selectedProduct.StockTransactions;
+            model.IntialStock = _selectedProduct.IntialStock;
 
-            GlobalConfig.Connections[0].SaveChanges(model);
+            await _productManager.SaveProductAsync(model);
+
             LoadDataIntoListView();
 
             MessageBox.Show("Changes saved successfully!");
@@ -159,7 +165,7 @@ namespace IMS_UI
 
         private void addNewButton_Click(object sender, EventArgs e)
         {
-            var addnewform = new AddProductForm();
+            var addnewform = new AddProductForm(_productManager);
             addnewform.UpdateListView += LoadDataIntoListView;
             addnewform.Show();
         }
@@ -168,22 +174,17 @@ namespace IMS_UI
         {
             var confirmResult = MessageBox.Show("Are you sure you want to create a backup?", "Generate backup", MessageBoxButtons.YesNo);
 
-            if (confirmResult == DialogResult.No)
+            if (confirmResult == DialogResult.No) return;
+          
+            try
             {
-                return;
-            }
-
-            bool successful = await GlobalConfig.Connections[0].GenerateBackup();
-
-            if (successful)
-            {
+                await GlobalConfig.Connections[0].GenerateBackup(true, true);
                 MessageBox.Show("Backup created successfully.");
             }
-            else
+            catch (Exception ex)
             {
                 MessageBox.Show("Oops! Something went wrong");
             }
-
         }
 
         private void createBackupButton_Click(object sender, EventArgs e)
@@ -248,20 +249,22 @@ namespace IMS_UI
             var NewTransaction = new StockTransaction();
 
             NewTransaction.TransactionType = "Sell";
-            NewTransaction.ParentId = selectedProduct.Id;
+            NewTransaction.ParentId = _selectedProduct.Id;
             NewTransaction.Id = Guid.NewGuid();
-            NewTransaction.date = DateTime.Now;
+            NewTransaction.DateAdded = DateTime.Now;
             NewTransaction.NProductsAddedRemoved = 1;
             NewTransaction.Details = "Sold to test";
 
-            await GlobalConfig.Connections[0].AddTransactionAsync(NewTransaction);
-            selectedProduct.StockTransactions.Add(NewTransaction); 
+            MessageBox.Show("added");
+
+            //await GlobalConfig.Connections[0].AddTransactionAsync(NewTransaction);
+            //_selectedProduct.StockTransactions.Add(NewTransaction); 
 
         }
 
         private void viewTransactionsButton_click(object sender, EventArgs e)
         {
-            var transactionform = new Transactions(new TextTransactionManager(), selectedProduct);
+            var transactionform = new Transactions(new TextTransactionManager(), _productManager ,_selectedProduct);
             transactionform.Show();
         }
 
