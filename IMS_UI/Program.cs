@@ -31,7 +31,7 @@ namespace IMS_UI
 
             IMSLibrary.GlobalConfig.InitializeConnections(true);
 
-            Application.Run(new Main(GlobalConfig.Connections[0].GetProductManager()));
+            Application.Run(new Main(GlobalConfig.Connections[0].GetProductManager(), GlobalConfig.Connections[0].GetTransactionManager()));
         }
     }
 }

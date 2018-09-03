@@ -59,7 +59,6 @@
             this.transactionsListView.Size = new System.Drawing.Size(392, 397);
             this.transactionsListView.TabIndex = 0;
             this.transactionsListView.UseCompatibleStateImageBehavior = false;
-            this.transactionsListView.SelectedIndexChanged += new System.EventHandler(this.transactionsListView_SelectedIndexChanged);
             this.transactionsListView.DoubleClick += new System.EventHandler(this.transactionsListView_DoubleClick);
             // 
             // transactionDateTextbox
@@ -292,6 +291,7 @@
             this.Controls.Add(this.transactionsListView);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximizeBox = false;
             this.Name = "Transactions";
             this.Text = "  ";
             this.Load += new System.EventHandler(this.Transactions_Load);

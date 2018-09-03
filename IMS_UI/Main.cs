@@ -20,11 +20,14 @@ namespace IMS_UI
         private ProductModel _selectedProduct;
 
         private IProductManager _productManager;
+
+        private ITransactionManager _transactionManager;
         #endregion
 
-        public Main(IProductManager productManager)
+        public Main(IProductManager productManager, ITransactionManager transactionManager)
         {
             _productManager = productManager;
+            _transactionManager = transactionManager;
             InitializeComponent();
         }
 
@@ -62,15 +65,27 @@ namespace IMS_UI
             {
                 if (i > results.GetLength(0) - 1) break;
                 var p = results[i];
-                dataListView.Items.Add(new ListViewItem (new string[] {p.Id.ToString(), p.Name, p.Category, p.Status, "sNo", p.DateAdded.ToShortDateString() }));
+                dataListView.Items.Add(new ListViewItem (new string[] {p.Id.ToString(), p.Name, p.Category, p.Status, p.DateAdded.ToShortDateString() }));
             }
         }
 
-        private void LoadDataIntoForm(ProductModel product)
+        private async void LoadDataIntoForm(ProductModel product)
         {
+            var transactionHistory = await _transactionManager.GetTransactionHistory(product);
+
+            int remainingStock = product.IntialStock;
+
+            foreach (var t in transactionHistory)
+            {
+                if (t.TransactionType == "Sell") remainingStock -= t.NProductsAddedRemoved;
+                else t.TransactionType += t.NProductsAddedRemoved;
+            }
+
             nameTextbox.Text = product.Name;
             descriptionTextbox.Text = product.Description;
             categoryTextbox.Text = product.Category;
+            initialStockText.Text = product.IntialStock.ToString();
+            currentStockText.Text = remainingStock.ToString();
             statusTextbox.Text = product.Status;
             urlTextbox.Text = product.ProductURL;
             imagePathTextbox.Text = product.ImagePath;
@@ -91,7 +106,6 @@ namespace IMS_UI
             dataListView.Columns.Add("Name", 200);
             dataListView.Columns.Add("Category", 120);
             dataListView.Columns.Add("Status", 120);
-            dataListView.Columns.Add("Stock", 60);
             dataListView.Columns.Add("Date Added", 90);
             LoadDataIntoListView();
         }
@@ -246,25 +260,14 @@ namespace IMS_UI
 
         private async void addTransactionButton_Click(object sender, EventArgs e)
         {
-            var NewTransaction = new StockTransaction();
+            var newTransactionForm = new NewTransaction(_transactionManager, _selectedProduct);
 
-            NewTransaction.TransactionType = "Sell";
-            NewTransaction.ParentId = _selectedProduct.Id;
-            NewTransaction.Id = Guid.NewGuid();
-            NewTransaction.DateAdded = DateTime.Now;
-            NewTransaction.NProductsAddedRemoved = 1;
-            NewTransaction.Details = "Sold to test";
-
-            MessageBox.Show("added");
-
-            //await GlobalConfig.Connections[0].AddTransactionAsync(NewTransaction);
-            //_selectedProduct.StockTransactions.Add(NewTransaction); 
-
+            newTransactionForm.Show();
         }
 
         private void viewTransactionsButton_click(object sender, EventArgs e)
         {
-            var transactionform = new Transactions(new TextTransactionManager(), _productManager ,_selectedProduct);
+            var transactionform = new Transactions(_transactionManager, _productManager ,_selectedProduct);
             transactionform.Show();
         }
 

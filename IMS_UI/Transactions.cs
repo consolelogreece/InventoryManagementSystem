@@ -58,13 +58,13 @@ namespace IMS_UI
 
             foreach (var r in results)
             {
-                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.NProductsAddedRemoved.ToString(), r.Price.ToString(), r.DateAdded.ToLongDateString() }));
+                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.Price.ToString(), r.DateAdded.ToLongDateString() }));
             }
         }
 
         #region UI Events
 
-        private void Transactions_Load(object sender, EventArgs e)
+        private async void Transactions_Load(object sender, EventArgs e)
         {
             transactionsListView.View = View.Details;
             transactionsListView.FullRowSelect = true;
@@ -76,12 +76,11 @@ namespace IMS_UI
             transactionsListView.Columns.Add("Price", 120);
             transactionsListView.Columns.Add("Date Added", 90);
 
-            LoadDataIntoListView();
-
+            await LoadDataIntoListView();
+        
         }
 
-        private async void transactionsListView_SelectedIndexChanged(object sender, EventArgs e)
-        { }
+        
 
         private async void transactionsListView_DoubleClick(object sender, EventArgs e)
         {
