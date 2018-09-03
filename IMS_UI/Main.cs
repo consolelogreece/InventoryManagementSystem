@@ -44,7 +44,6 @@ namespace IMS_UI
             return isValid;
         }
 
-
         #region AlterListViewMethods
 
         public async void LoadDataIntoListView()
