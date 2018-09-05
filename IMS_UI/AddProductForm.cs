@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static IMSLibrary.Shared.ValidiationUtils;
 
 namespace IMS_UI
 {
@@ -30,23 +31,10 @@ namespace IMS_UI
         {
             bool output = true;
 
+            if (!IsValidInt(initialStockTextbox.Text)) output = false;
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) output = false;
             if (String.IsNullOrWhiteSpace(statusTextbox.Text)) output = false;
             if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = false;
-
-            return output;
-        }
-
-        private bool DoesFormContainData()
-        {
-            bool output = false;
-
-            if (!String.IsNullOrWhiteSpace(nameTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(statusTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(descriptionTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(urlTextbox.Text)) output = true;
-            if (!String.IsNullOrWhiteSpace(imagePathTextbox.Text)) output = true;
 
             return output;
         }
@@ -132,15 +120,13 @@ namespace IMS_UI
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            if (DoesFormContainData())
-            {
-                var confirmResult = MessageBox.Show("Are you sure you want to cancel?", "Cancel", MessageBoxButtons.YesNo);
+            var confirmResult = MessageBox.Show("Are you sure you want to cancel?", "Cancel", MessageBoxButtons.YesNo);
 
-                if (confirmResult == DialogResult.No)
-                {
-                    return;
-                }
+            if (confirmResult == DialogResult.No)
+            {
+                return;
             }
+            
             this.Close();
         }
 

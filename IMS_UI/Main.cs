@@ -1,15 +1,12 @@
 ﻿using System;
 using IMSLibrary;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using IMSLibrary.Products;
+using static IMSLibrary.Shared.ValidiationUtils;
 
 namespace IMS_UI
 {
@@ -34,8 +31,6 @@ namespace IMS_UI
         private bool ValidateForm()
         {
             bool isValid = true;
-
-            Decimal parsedVal;
 
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) isValid = false;
             if (String.IsNullOrWhiteSpace(statusTextbox.Text)) isValid = false;
@@ -77,7 +72,7 @@ namespace IMS_UI
             foreach (var t in transactionHistory)
             {
                 if (t.TransactionType == "Sell") remainingStock -= t.NProductsAddedRemoved;
-                else t.TransactionType += t.NProductsAddedRemoved;
+                else remainingStock += t.NProductsAddedRemoved;
             }
 
             nameTextbox.Text = product.Name;
@@ -150,6 +145,12 @@ namespace IMS_UI
 
         private async void saveChangesButton_Click(object sender, EventArgs e)
         {
+            if (_selectedProduct == null)
+            {
+                MessageBox.Show("You must select a product");
+                return;
+            }
+
             if (!ValidateForm())
             {
                 MessageBox.Show("Invalid input data");
@@ -221,7 +222,7 @@ namespace IMS_UI
                 return;
             }
 
-            if (!FileUtilities.IsValidImage(imagePathTextbox.Text))
+            if (!FileUtils.IsValidImage(imagePathTextbox.Text))
             {
                 imagePathErrorLabel.Text = "Invalid file format";
                 imagePreviewPicturebox.Image = null;
@@ -236,7 +237,7 @@ namespace IMS_UI
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (FileUtilities.IsValidImage(files[0]))
+            if (FileUtils.IsValidImage(files[0]))
             {
                 imagePathErrorLabel.Text = "";
                 imagePreviewPicturebox.Image = Image.FromFile(files[0]);
@@ -259,6 +260,12 @@ namespace IMS_UI
 
         private async void addTransactionButton_Click(object sender, EventArgs e)
         {
+            if (_selectedProduct == null)
+            {
+                MessageBox.Show("You must select a product");
+                return;
+            }
+
             var newTransactionForm = new NewTransaction(_transactionManager, _selectedProduct);
 
             newTransactionForm.Show();

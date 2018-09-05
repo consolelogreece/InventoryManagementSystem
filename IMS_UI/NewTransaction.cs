@@ -1,13 +1,7 @@
 ﻿using IMSLibrary;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static IMSLibrary.Shared.ValidiationUtils;
 
 namespace IMS_UI
 {
@@ -28,6 +22,17 @@ namespace IMS_UI
             InitializeComponent();
         }
 
+        private bool ValidateForm()
+        {
+            bool isValid = true;
+
+            if (String.IsNullOrWhiteSpace(transactionTypeCombobox.Text)) isValid = false;
+            if (!IsValidDecimal(transactionPriceTextbox.Text)) isValid = false;
+            if (!IsValidInt(nBoughtSoldTextbox.Text)) isValid = false;
+
+            return isValid;
+        }
+
         private void NewTransaction_Load(object sender, EventArgs e)
         {
 
@@ -35,6 +40,10 @@ namespace IMS_UI
 
         private async void addButton_Click(object sender, EventArgs e)
         {
+            if (!ValidateForm()) {
+                MessageBox.Show("Invalid data");
+                return;
+            }
 
             var newTransaction = new StockTransaction();
 
@@ -43,9 +52,15 @@ namespace IMS_UI
             newTransaction.Id = Guid.NewGuid();
             newTransaction.DateAdded = DateTime.Now;
             newTransaction.NProductsAddedRemoved = int.Parse(nBoughtSoldTextbox.Text);
+            newTransaction.Price = Decimal.Parse(transactionPriceTextbox.Text);
             newTransaction.Details = transactionDetailsTextbox.Text;
 
             await _transactionManager.SaveTransactionAsync(newTransaction);
+
+            transactionTypeCombobox.Text = "";
+            nBoughtSoldTextbox.Text = "";
+            transactionPriceTextbox.Text = "";
+            transactionDetailsTextbox.Text = "";
 
             MessageBox.Show("Transaction successfully added");
         }

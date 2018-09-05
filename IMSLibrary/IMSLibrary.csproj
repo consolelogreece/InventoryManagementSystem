@@ -47,9 +47,10 @@
   <ItemGroup>
     <Compile Include="Products\IProductManager.cs" />
     <Compile Include="Products\TextProductManager.cs" />
-    <Compile Include="Shared\FileUtilities.cs" />
+    <Compile Include="Shared\FileUtils.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Connectors\IDataConnection.cs" />
+    <Compile Include="Shared\ValidiationUtils.cs" />
     <Compile Include="Transactions\ITransactionManager.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

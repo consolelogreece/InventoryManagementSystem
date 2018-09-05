@@ -1,14 +1,9 @@
 ﻿using IMSLibrary;
 using IMSLibrary.Products;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static IMSLibrary.Shared.ValidiationUtils;
 
 namespace IMS_UI
 {
@@ -114,8 +109,31 @@ namespace IMS_UI
 
         #endregion
 
+        private bool ValidateForm()
+        {
+            bool isValid = true;
+
+            if (String.IsNullOrWhiteSpace(transactionTypeCombobox.Text)) isValid = false;
+            if (!IsValidDecimal(transactionPriceTextbox.Text)) isValid = false;
+            if (!IsValidInt(nBoughtSoldTextbox.Text)) isValid = false;
+
+            return isValid;
+        }
+
         private async void saveChangesButton_Click(object sender, EventArgs e)
         {
+            if (_selectedTransaction == null)
+            {
+                MessageBox.Show("You must select a transaction");
+                return;
+            }
+
+            if (!ValidateForm())
+            {
+                MessageBox.Show("Invalid data");
+                return;
+            }
+
             var model = new StockTransaction();
 
             model.DateAdded = _selectedTransaction.DateAdded;

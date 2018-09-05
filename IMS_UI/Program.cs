@@ -10,12 +10,8 @@ namespace IMS_UI
     static class Program
     {
 
-        // TODO - Ensure product is selected before allowing save changes
-        // TODO - Add dropdown box for preselected categories/status
+        // TODO - Add dropdown box for preselected categories/status -> store options on file, add ability to add new option
         // TODO - Validate all data before doing anything with it
-        // TODO - ADD product and transaction should insert intoto start of file
-        // TODO - Order by descending on both transactions and products
-        // TODO - Look into where fetching product doesn't also fetch transactions
         // TODO - Ensure thread saftey. look into locking
 
         [STAThread]
