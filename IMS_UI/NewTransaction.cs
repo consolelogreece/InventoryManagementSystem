@@ -35,7 +35,8 @@ namespace IMS_UI
 
         private void NewTransaction_Load(object sender, EventArgs e)
         {
-
+            transactionTypeCombobox.Items.Add("Buy");
+            transactionTypeCombobox.Items.Add("Sell");
         }
 
         private async void addButton_Click(object sender, EventArgs e)

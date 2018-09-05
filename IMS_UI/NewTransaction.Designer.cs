@@ -117,6 +117,7 @@
             // 
             // transactionTypeCombobox
             // 
+            this.transactionTypeCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.transactionTypeCombobox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.transactionTypeCombobox.FormattingEnabled = true;
             this.transactionTypeCombobox.Location = new System.Drawing.Point(12, 219);

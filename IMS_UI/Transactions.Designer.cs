@@ -117,11 +117,13 @@
             // 
             // transactionTypeCombobox
             // 
+            this.transactionTypeCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.transactionTypeCombobox.FormattingEnabled = true;
             this.transactionTypeCombobox.Location = new System.Drawing.Point(427, 287);
             this.transactionTypeCombobox.Name = "transactionTypeCombobox";
             this.transactionTypeCombobox.Size = new System.Drawing.Size(171, 25);
             this.transactionTypeCombobox.TabIndex = 7;
+            this.transactionTypeCombobox.SelectedIndexChanged += new System.EventHandler(this.transactionTypeCombobox_SelectedIndexChanged);
             // 
             // transactionTypeLabel
             // 

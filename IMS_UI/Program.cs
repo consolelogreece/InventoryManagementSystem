@@ -9,9 +9,7 @@ namespace IMS_UI
 {
     static class Program
     {
-
         // TODO - Add dropdown box for preselected categories/status -> store options on file, add ability to add new option
-        // TODO - Validate all data before doing anything with it
         // TODO - Ensure thread saftey. look into locking
 
         [STAThread]

@@ -61,6 +61,9 @@ namespace IMS_UI
 
         private async void Transactions_Load(object sender, EventArgs e)
         {
+            transactionTypeCombobox.Items.Add("Buy");
+            transactionTypeCombobox.Items.Add("Sell");
+
             transactionsListView.View = View.Details;
             transactionsListView.FullRowSelect = true;
             transactionsListView.GridLines = true;
@@ -187,6 +190,11 @@ namespace IMS_UI
             }
 
             this.Close();
+        }
+
+        private void transactionTypeCombobox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
