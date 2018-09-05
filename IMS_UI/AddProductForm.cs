@@ -114,7 +114,7 @@ namespace IMS_UI
                 return;
             }
 
-            if (!FileUtilities.IsValidImage(imagePathTextbox.Text))
+            if (!FileUtils.IsValidImage(imagePathTextbox.Text))
             {
                 imagePathErrorLabel.Text = "Invalid file format";
                 imagePreviewPicturebox.Image = null;
@@ -148,7 +148,7 @@ namespace IMS_UI
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (FileUtilities.IsValidImage(files[0]))
+            if (FileUtils.IsValidImage(files[0]))
             {
                 imagePathErrorLabel.Text = "";
                 imagePreviewPicturebox.Image = Image.FromFile(files[0]);
