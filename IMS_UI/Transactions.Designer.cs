@@ -184,6 +184,7 @@
             this.cancelButton.TabStop = false;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = false;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // saveChangesButton
             // 
@@ -241,6 +242,7 @@
             this.refreshButton.TabIndex = 16;
             this.refreshButton.Text = "↻";
             this.refreshButton.UseVisualStyleBackColor = false;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // pageNo
             // 

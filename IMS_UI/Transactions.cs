@@ -152,5 +152,23 @@ namespace IMS_UI
 
             pageNo.Text = _transactionManager.GetPageNo().ToString();
         }
+
+        private async void refreshButton_Click(object sender, EventArgs e)
+        {
+            await _transactionManager.LoadTransactionsAsync();
+            await LoadDataIntoListView();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure you want to cancel?", "Cancel", MessageBoxButtons.YesNo);
+
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
+            this.Close();
+        }
     }
 }

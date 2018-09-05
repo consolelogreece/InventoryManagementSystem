@@ -46,11 +46,25 @@ namespace IMS_UI
             newTransaction.Details = transactionDetailsTextbox.Text;
 
             await _transactionManager.SaveTransactionAsync(newTransaction);
+
+            MessageBox.Show("Transaction successfully added");
         }
 
         private void transactionDetailsTextbox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure you want to cancel?", "Cancel", MessageBoxButtons.YesNo);
+
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
+            this.Close();
         }
     }
 }
