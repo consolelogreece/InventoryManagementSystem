@@ -107,7 +107,7 @@ namespace IMSLibrary
                 }
             }
 
-            if (!foundId) _transactions.Add(transaction);
+            if (!foundId) _transactions.Insert(0, transaction);
 
             await Task.Run(() =>
             {

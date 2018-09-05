@@ -142,7 +142,7 @@ namespace IMSLibrary.Products
                 }
             }
 
-            if (!foundId) _products.Add(product);
+            if (!foundId) _products.Insert(0, product);
             
             await Task.Run(() =>
             {
