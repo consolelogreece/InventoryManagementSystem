@@ -47,9 +47,7 @@
             this.imagePreviewLabel = new System.Windows.Forms.Label();
             this.imagePathTextbox = new System.Windows.Forms.TextBox();
             this.imagePathLabel = new System.Windows.Forms.Label();
-            this.statusTextbox = new System.Windows.Forms.TextBox();
             this.statusLabel = new System.Windows.Forms.Label();
-            this.categoryTextbox = new System.Windows.Forms.TextBox();
             this.categoryLabel = new System.Windows.Forms.Label();
             this.soldGroupBox = new System.Windows.Forms.GroupBox();
             this.viewTransactionButton = new System.Windows.Forms.Button();
@@ -67,6 +65,8 @@
             this.productModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pageNoLabel = new System.Windows.Forms.Label();
             this.pageNo = new System.Windows.Forms.Label();
+            this.statusComboBox = new System.Windows.Forms.ComboBox();
+            this.categoryComboBox = new System.Windows.Forms.ComboBox();
             this.picturePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).BeginInit();
             this.soldGroupBox.SuspendLayout();
@@ -101,10 +101,11 @@
             // 
             // searchTextBox
             // 
+            this.searchTextBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchTextBox.Location = new System.Drawing.Point(12, 25);
             this.searchTextBox.MaxLength = 400;
             this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.Size = new System.Drawing.Size(335, 20);
+            this.searchTextBox.Size = new System.Drawing.Size(335, 27);
             this.searchTextBox.TabIndex = 2;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
@@ -163,11 +164,11 @@
             // 
             // urlTextbox
             // 
-            this.urlTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.urlTextbox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.urlTextbox.Location = new System.Drawing.Point(644, 443);
             this.urlTextbox.MaxLength = 300;
             this.urlTextbox.Name = "urlTextbox";
-            this.urlTextbox.Size = new System.Drawing.Size(217, 25);
+            this.urlTextbox.Size = new System.Drawing.Size(217, 27);
             this.urlTextbox.TabIndex = 5;
             // 
             // urlLabel
@@ -201,7 +202,7 @@
             // 
             // descriptionTextbox
             // 
-            this.descriptionTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.descriptionTextbox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.descriptionTextbox.Location = new System.Drawing.Point(644, 90);
             this.descriptionTextbox.MaxLength = 500;
             this.descriptionTextbox.Multiline = true;
@@ -221,11 +222,11 @@
             // 
             // nameTextbox
             // 
-            this.nameTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nameTextbox.Location = new System.Drawing.Point(644, 25);
             this.nameTextbox.MaxLength = 400;
             this.nameTextbox.Name = "nameTextbox";
-            this.nameTextbox.Size = new System.Drawing.Size(347, 25);
+            this.nameTextbox.Size = new System.Drawing.Size(347, 29);
             this.nameTextbox.TabIndex = 1;
             // 
             // nameLabel
@@ -251,11 +252,11 @@
             // 
             // imagePathTextbox
             // 
-            this.imagePathTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imagePathTextbox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imagePathTextbox.Location = new System.Drawing.Point(644, 510);
             this.imagePathTextbox.MaxLength = 300;
             this.imagePathTextbox.Name = "imagePathTextbox";
-            this.imagePathTextbox.Size = new System.Drawing.Size(217, 25);
+            this.imagePathTextbox.Size = new System.Drawing.Size(217, 27);
             this.imagePathTextbox.TabIndex = 6;
             this.imagePathTextbox.TextChanged += new System.EventHandler(this.imagePathTextbox_TextChanged);
             // 
@@ -269,15 +270,6 @@
             this.imagePathLabel.TabIndex = 23;
             this.imagePathLabel.Text = "Image path";
             // 
-            // statusTextbox
-            // 
-            this.statusTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusTextbox.Location = new System.Drawing.Point(644, 377);
-            this.statusTextbox.MaxLength = 100;
-            this.statusTextbox.Name = "statusTextbox";
-            this.statusTextbox.Size = new System.Drawing.Size(217, 25);
-            this.statusTextbox.TabIndex = 4;
-            // 
             // statusLabel
             // 
             this.statusLabel.AutoSize = true;
@@ -287,15 +279,6 @@
             this.statusLabel.Size = new System.Drawing.Size(43, 17);
             this.statusLabel.TabIndex = 21;
             this.statusLabel.Text = "Status";
-            // 
-            // categoryTextbox
-            // 
-            this.categoryTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.categoryTextbox.Location = new System.Drawing.Point(644, 310);
-            this.categoryTextbox.MaxLength = 100;
-            this.categoryTextbox.Name = "categoryTextbox";
-            this.categoryTextbox.Size = new System.Drawing.Size(217, 25);
-            this.categoryTextbox.TabIndex = 3;
             // 
             // categoryLabel
             // 
@@ -387,7 +370,7 @@
             // 
             this.dateAddedLabel.AutoSize = true;
             this.dateAddedLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateAddedLabel.Location = new System.Drawing.Point(1008, 5);
+            this.dateAddedLabel.Location = new System.Drawing.Point(994, 5);
             this.dateAddedLabel.Name = "dateAddedLabel";
             this.dateAddedLabel.Size = new System.Drawing.Size(78, 17);
             this.dateAddedLabel.TabIndex = 34;
@@ -396,10 +379,10 @@
             // dateAddedTextbox
             // 
             this.dateAddedTextbox.Enabled = false;
-            this.dateAddedTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateAddedTextbox.Location = new System.Drawing.Point(1011, 25);
+            this.dateAddedTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateAddedTextbox.Location = new System.Drawing.Point(997, 25);
             this.dateAddedTextbox.Name = "dateAddedTextbox";
-            this.dateAddedTextbox.Size = new System.Drawing.Size(134, 25);
+            this.dateAddedTextbox.Size = new System.Drawing.Size(148, 29);
             this.dateAddedTextbox.TabIndex = 35;
             // 
             // saveChangesButton
@@ -438,7 +421,7 @@
             this.addNewButton.Name = "addNewButton";
             this.addNewButton.Size = new System.Drawing.Size(242, 55);
             this.addNewButton.TabIndex = 38;
-            this.addNewButton.Text = "Add New";
+            this.addNewButton.Text = "Add Product";
             this.addNewButton.UseVisualStyleBackColor = false;
             this.addNewButton.Click += new System.EventHandler(this.addNewButton_Click);
             // 
@@ -467,6 +450,24 @@
             this.pageNo.Text = "0";
             this.pageNo.Click += new System.EventHandler(this.pageNo_Click);
             // 
+            // statusComboBox
+            // 
+            this.statusComboBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusComboBox.FormattingEnabled = true;
+            this.statusComboBox.Location = new System.Drawing.Point(643, 373);
+            this.statusComboBox.Name = "statusComboBox";
+            this.statusComboBox.Size = new System.Drawing.Size(218, 28);
+            this.statusComboBox.TabIndex = 42;
+            // 
+            // categoryComboBox
+            // 
+            this.categoryComboBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.categoryComboBox.FormattingEnabled = true;
+            this.categoryComboBox.Location = new System.Drawing.Point(644, 310);
+            this.categoryComboBox.Name = "categoryComboBox";
+            this.categoryComboBox.Size = new System.Drawing.Size(217, 28);
+            this.categoryComboBox.TabIndex = 41;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -474,6 +475,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1160, 759);
+            this.Controls.Add(this.statusComboBox);
+            this.Controls.Add(this.categoryComboBox);
             this.Controls.Add(this.pageNoLabel);
             this.Controls.Add(this.pageNo);
             this.Controls.Add(this.addNewButton);
@@ -493,9 +496,7 @@
             this.Controls.Add(this.imagePreviewLabel);
             this.Controls.Add(this.imagePathTextbox);
             this.Controls.Add(this.imagePathLabel);
-            this.Controls.Add(this.statusTextbox);
             this.Controls.Add(this.statusLabel);
-            this.Controls.Add(this.categoryTextbox);
             this.Controls.Add(this.categoryLabel);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.pageLeft);
@@ -542,9 +543,7 @@
         private System.Windows.Forms.Label imagePreviewLabel;
         private System.Windows.Forms.TextBox imagePathTextbox;
         private System.Windows.Forms.Label imagePathLabel;
-        private System.Windows.Forms.TextBox statusTextbox;
         private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.TextBox categoryTextbox;
         private System.Windows.Forms.Label categoryLabel;
         private System.Windows.Forms.GroupBox soldGroupBox;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
@@ -561,5 +560,7 @@
         private System.Windows.Forms.Label currentStockLabel;
         private System.Windows.Forms.Label pageNoLabel;
         private System.Windows.Forms.Label pageNo;
+        private System.Windows.Forms.ComboBox statusComboBox;
+        private System.Windows.Forms.ComboBox categoryComboBox;
     }
 }

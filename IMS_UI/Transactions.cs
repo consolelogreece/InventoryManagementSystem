@@ -78,40 +78,6 @@ namespace IMS_UI
         
         }
 
-        
-
-        private async void transactionsListView_DoubleClick(object sender, EventArgs e)
-        {
-
-            ProductModel product = _product;
-
-            if (product == null)
-            {
-                Guid ProductId = Guid.Empty;
-
-                Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[1].Text, out ProductId);
-
-                product = await _productManager.GetProductByGuid(ProductId);
-            }
-
-
-            Guid TransactionId = Guid.Empty;
-            Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[0].Text, out TransactionId);
-
-            StockTransaction transaction = await _transactionManager.GetStockTransactionById(TransactionId);
-
-            _selectedTransaction = transaction;
-
-            nameParentProductTextbox.Text = product.Name;
-            transactionDateTextbox.Text = transaction.DateAdded.ToLongDateString();
-            transactionDescriptionTextbox.Text = transaction.Details;
-            transactionTypeCombobox.Text = transaction.TransactionType;
-            transactionPriceTextbox.Text = transaction.Price.ToString();
-            nBoughtSoldTextbox.Text = transaction.NProductsAddedRemoved.ToString();
-        }
-
-        #endregion
-
         private bool ValidateForm()
         {
             bool isValid = true;
@@ -196,5 +162,37 @@ namespace IMS_UI
         {
 
         }
+
+        private async void transactionsListView_DoubleClick(object sender, EventArgs e)
+        {
+
+            ProductModel product = _product;
+
+            if (product == null)
+            {
+                Guid ProductId = Guid.Empty;
+
+                Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[1].Text, out ProductId);
+
+                product = await _productManager.GetProductByGuid(ProductId);
+            }
+
+
+            Guid TransactionId = Guid.Empty;
+            Guid.TryParse(transactionsListView.SelectedItems[0].SubItems[0].Text, out TransactionId);
+
+            StockTransaction transaction = await _transactionManager.GetStockTransactionById(TransactionId);
+
+            _selectedTransaction = transaction;
+
+            nameParentProductTextbox.Text = product.Name;
+            transactionDateTextbox.Text = transaction.DateAdded.ToLongDateString();
+            transactionDescriptionTextbox.Text = transaction.Details;
+            transactionTypeCombobox.Text = transaction.TransactionType;
+            transactionPriceTextbox.Text = transaction.Price.ToString();
+            nBoughtSoldTextbox.Text = transaction.NProductsAddedRemoved.ToString();
+        }
+
+        #endregion
     }
 }

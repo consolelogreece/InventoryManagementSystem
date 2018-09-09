@@ -33,8 +33,8 @@ namespace IMS_UI
 
             if (!IsValidInt(initialStockTextbox.Text)) output = false;
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) output = false;
-            if (String.IsNullOrWhiteSpace(statusTextbox.Text)) output = false;
-            if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) output = false;
+            if (String.IsNullOrWhiteSpace(statusComboBox.Text)) output = false;
+            if (String.IsNullOrWhiteSpace(categoryComboBox.Text)) output = false;
 
             return output;
         }
@@ -55,8 +55,8 @@ namespace IMS_UI
             model.Id = Guid.NewGuid();
             model.Name = nameTextbox.Text;
             model.Description = descriptionTextbox.Text;
-            model.Category = categoryTextbox.Text;
-            model.Status = statusTextbox.Text;
+            model.Category = categoryComboBox.Text;
+            model.Status = statusComboBox.Text;
             model.ProductURL = urlTextbox.Text;
             model.ImagePath = imagePathTextbox.Text;
             model.DateAdded = DateTime.Now;
@@ -69,14 +69,15 @@ namespace IMS_UI
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 MessageBox.Show("Oops, something wen't wrong! Please try again.");
                 return;
             }
             
             nameTextbox.Text = "";
             descriptionTextbox.Text = "";
-            categoryTextbox.Text = "";
-            statusTextbox.Text = "";
+            categoryComboBox.Text = "";
+            statusComboBox.Text = "";
             urlTextbox.Text = "";
             imagePathTextbox.Text = "";
             initialStockTextbox.Text = "";
@@ -115,7 +116,15 @@ namespace IMS_UI
 
         private void AddProductForm_Load(object sender, EventArgs e)
         {
+            categoryComboBox.Items.Add("Clothing");
+            categoryComboBox.Items.Add("Cosmetics");
+            categoryComboBox.Items.Add("Jewellery");
+            categoryComboBox.Items.Add("Misc");
 
+            statusComboBox.Items.Add("Listed");
+            statusComboBox.Items.Add("At Auction");
+            statusComboBox.Items.Add("Sold");         
+            statusComboBox.Items.Add("Other");
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -151,5 +160,10 @@ namespace IMS_UI
         }
 
         #endregion
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -33,8 +33,8 @@ namespace IMS_UI
             bool isValid = true;
 
             if (String.IsNullOrWhiteSpace(nameTextbox.Text)) isValid = false;
-            if (String.IsNullOrWhiteSpace(statusTextbox.Text)) isValid = false;
-            if (String.IsNullOrWhiteSpace(categoryTextbox.Text)) isValid = false;
+            if (String.IsNullOrWhiteSpace(statusComboBox.Text)) isValid = false;
+            if (String.IsNullOrWhiteSpace(categoryComboBox.Text)) isValid = false;
 
             return isValid;
         }
@@ -77,10 +77,10 @@ namespace IMS_UI
 
             nameTextbox.Text = product.Name;
             descriptionTextbox.Text = product.Description;
-            categoryTextbox.Text = product.Category;
+            categoryComboBox.Text = product.Category;
             initialStockText.Text = product.IntialStock.ToString();
             currentStockText.Text = remainingStock.ToString();
-            statusTextbox.Text = product.Status;
+            statusComboBox.Text = product.Status;
             urlTextbox.Text = product.ProductURL;
             imagePathTextbox.Text = product.ImagePath;
             dateAddedTextbox.Text = product.DateAdded.ToLongDateString();
@@ -101,6 +101,17 @@ namespace IMS_UI
             dataListView.Columns.Add("Category", 120);
             dataListView.Columns.Add("Status", 120);
             dataListView.Columns.Add("Date Added", 90);
+
+            categoryComboBox.Items.Add("Clothing");
+            categoryComboBox.Items.Add("Cosmetics");
+            categoryComboBox.Items.Add("Jewellery");
+            categoryComboBox.Items.Add("Misc");
+
+            statusComboBox.Items.Add("Listed");
+            statusComboBox.Items.Add("At Auction");
+            statusComboBox.Items.Add("Sold");
+            statusComboBox.Items.Add("Other");
+
             LoadDataIntoListView();
         }
 
@@ -162,8 +173,8 @@ namespace IMS_UI
             model.Id = _selectedProduct.Id;
             model.Name = nameTextbox.Text;
             model.Description = descriptionTextbox.Text;
-            model.Category = categoryTextbox.Text;
-            model.Status = statusTextbox.Text;
+            model.Category = categoryComboBox.Text;
+            model.Status = statusComboBox.Text;
             model.ProductURL = urlTextbox.Text;
             model.ImagePath = imagePathTextbox.Text;
             model.DateAdded = _selectedProduct.DateAdded;
@@ -197,6 +208,7 @@ namespace IMS_UI
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 MessageBox.Show("Oops! Something went wrong");
             }
         }
@@ -258,7 +270,7 @@ namespace IMS_UI
 
         }
 
-        private async void addTransactionButton_Click(object sender, EventArgs e)
+        private void addTransactionButton_Click(object sender, EventArgs e)
         {
             if (_selectedProduct == null)
             {
@@ -277,9 +289,13 @@ namespace IMS_UI
             transactionform.Show();
         }
 
-
         #region Unused ui events
         private void dataListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pageNo_Click(object sender, EventArgs e)
         {
 
         }
@@ -307,9 +323,6 @@ namespace IMS_UI
 
         #endregion
 
-        private void pageNo_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

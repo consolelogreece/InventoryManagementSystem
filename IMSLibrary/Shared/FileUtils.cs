@@ -14,6 +14,7 @@ namespace IMSLibrary
             }
             catch (OutOfMemoryException ex)
             {
+                Console.WriteLine(ex);
                 return false;
             }
             return true;

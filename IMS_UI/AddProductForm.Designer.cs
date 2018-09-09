@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.categoryLabel = new System.Windows.Forms.Label();
-            this.categoryTextbox = new System.Windows.Forms.TextBox();
-            this.statusTextbox = new System.Windows.Forms.TextBox();
             this.statusLabel = new System.Windows.Forms.Label();
             this.imagePathTextbox = new System.Windows.Forms.TextBox();
             this.imagePathLabel = new System.Windows.Forms.Label();
@@ -48,6 +46,8 @@
             this.imagePathErrorLabel = new System.Windows.Forms.Label();
             this.initialStockTextbox = new System.Windows.Forms.TextBox();
             this.initialStockLabel = new System.Windows.Forms.Label();
+            this.categoryComboBox = new System.Windows.Forms.ComboBox();
+            this.statusComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.imagePreviewPicturebox)).BeginInit();
             this.picturePanel.SuspendLayout();
             this.SuspendLayout();
@@ -60,20 +60,6 @@
             this.categoryLabel.Size = new System.Drawing.Size(73, 21);
             this.categoryLabel.TabIndex = 0;
             this.categoryLabel.Text = "Category";
-            // 
-            // categoryTextbox
-            // 
-            this.categoryTextbox.Location = new System.Drawing.Point(12, 320);
-            this.categoryTextbox.Name = "categoryTextbox";
-            this.categoryTextbox.Size = new System.Drawing.Size(361, 29);
-            this.categoryTextbox.TabIndex = 3;
-            // 
-            // statusTextbox
-            // 
-            this.statusTextbox.Location = new System.Drawing.Point(12, 387);
-            this.statusTextbox.Name = "statusTextbox";
-            this.statusTextbox.Size = new System.Drawing.Size(361, 29);
-            this.statusTextbox.TabIndex = 4;
             // 
             // statusLabel
             // 
@@ -230,6 +216,23 @@
             this.initialStockLabel.TabIndex = 18;
             this.initialStockLabel.Text = "Initial stock";
             // 
+            // categoryComboBox
+            // 
+            this.categoryComboBox.FormattingEnabled = true;
+            this.categoryComboBox.Location = new System.Drawing.Point(12, 319);
+            this.categoryComboBox.Name = "categoryComboBox";
+            this.categoryComboBox.Size = new System.Drawing.Size(361, 29);
+            this.categoryComboBox.TabIndex = 19;
+            this.categoryComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // statusComboBox
+            // 
+            this.statusComboBox.FormattingEnabled = true;
+            this.statusComboBox.Location = new System.Drawing.Point(12, 387);
+            this.statusComboBox.Name = "statusComboBox";
+            this.statusComboBox.Size = new System.Drawing.Size(361, 29);
+            this.statusComboBox.TabIndex = 20;
+            // 
             // AddProductForm
             // 
             this.AllowDrop = true;
@@ -237,6 +240,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(737, 681);
+            this.Controls.Add(this.statusComboBox);
+            this.Controls.Add(this.categoryComboBox);
             this.Controls.Add(this.initialStockTextbox);
             this.Controls.Add(this.initialStockLabel);
             this.Controls.Add(this.imagePathErrorLabel);
@@ -252,9 +257,7 @@
             this.Controls.Add(this.imagePreviewLabel);
             this.Controls.Add(this.imagePathTextbox);
             this.Controls.Add(this.imagePathLabel);
-            this.Controls.Add(this.statusTextbox);
             this.Controls.Add(this.statusLabel);
-            this.Controls.Add(this.categoryTextbox);
             this.Controls.Add(this.categoryLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(22)))), ((int)(((byte)(22)))));
@@ -276,8 +279,6 @@
         #endregion
 
         private System.Windows.Forms.Label categoryLabel;
-        private System.Windows.Forms.TextBox categoryTextbox;
-        private System.Windows.Forms.TextBox statusTextbox;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.TextBox imagePathTextbox;
         private System.Windows.Forms.Label imagePathLabel;
@@ -295,6 +296,8 @@
         private System.Windows.Forms.Label imagePathErrorLabel;
         private System.Windows.Forms.TextBox initialStockTextbox;
         private System.Windows.Forms.Label initialStockLabel;
+        private System.Windows.Forms.ComboBox categoryComboBox;
+        private System.Windows.Forms.ComboBox statusComboBox;
     }
 }
 
