@@ -1,7 +1,7 @@
 # Inventory Management System
 The Inventory Management System is a simple application designed for individual sellers, similar to platforms like eBay and Depop. This system allows sellers to manage their inventory and generate backups for data security.
 
-![screenshot](pics/ims.png)
+![screenshot](pics/ims.PNG)
 
 ## Installation
 
