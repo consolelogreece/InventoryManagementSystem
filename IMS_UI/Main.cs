@@ -278,7 +278,7 @@ namespace IMS_UI
                 return;
             }
 
-            var newTransactionForm = new NewTransaction(_transactionManager, _selectedProduct);
+            var newTransactionForm = new NewTransaction(_transactionManager, _selectedProduct, () => LoadDataIntoForm(this._selectedProduct));
 
             newTransactionForm.Show();
         }

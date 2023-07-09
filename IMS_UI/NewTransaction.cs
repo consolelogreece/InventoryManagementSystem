@@ -11,13 +11,17 @@ namespace IMS_UI
         private ITransactionManager _transactionManager;
 
         private ProductModel _selectedProduct;
+
+        private Action _refreshcallback;
         #endregion
 
-        public NewTransaction(ITransactionManager transactionManager, ProductModel selectedProduct)
+        public NewTransaction(ITransactionManager transactionManager, ProductModel selectedProduct, Action refreshcallback)
         {
             _transactionManager = transactionManager;
 
             _selectedProduct = selectedProduct;
+
+            _refreshcallback = refreshcallback;
 
             InitializeComponent();
         }
@@ -62,6 +66,8 @@ namespace IMS_UI
             nBoughtSoldTextbox.Text = "";
             transactionPriceTextbox.Text = "";
             transactionDetailsTextbox.Text = "";
+
+            _refreshcallback();
 
             MessageBox.Show("Transaction successfully added");
         }
