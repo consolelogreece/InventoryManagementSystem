@@ -74,6 +74,10 @@ namespace IMSLibrary.Products
             await Task.Run(() =>
             {
                 var Id = Guid.NewGuid().ToString();
+
+                // Create directory if does not exist, do nothing if does.
+                Directory.CreateDirectory(backupFolderLocation.fullFilePath());
+
                 using (TextWriter textWriter = new StreamWriter((backupFolderLocation + $"{Id} - Products ").fullFilePath(), false))
                 {
                     using (var csv = new CsvWriter(textWriter))
