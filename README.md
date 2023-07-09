@@ -1,11 +1,9 @@
 # Inventory Management System
-The Inventory Management System is a simple application designed for individual sellers, similar to platforms like eBay and Depop. This system allows sellers to manage their inventory and generate backups for data security.
+The Inventory Management System is a simple application designed for individual sellers on sites like eBay and Depop, helping them to manage their inventory. It also allows backups to be generated for data security.
 
 ![screenshot](pics/ims.PNG)
 
 ## Installation
-
-To install the Inventory Management System, follow these steps:
 - Please note that you need .NET Framework 4.8 installed, and you will need MSBuild if you do not have Visual Studio installed.
 
 1. Clone the repository to your local machine:
@@ -21,13 +19,13 @@ git clone https://github.com/consolelogreece/InventoryManagementSystem.git
 MSBuild.exe
 ```
 
-4. Navigate to /bin/debug and run IMS_UI.exe
+4. Navigate to /bin/debug and run IMS_UI.exe.
 
 
 ## Configuration
 After cloning the repository and before running the application, you need to update the `filePath` key in the `App.config` file located in the `/IMS_UI` directory. This key specifies the path where the data and backups will be stored.
 
-Open the `App.config` file in a text editor and locate the following section:
+Open the `App.config` file in a text editor and update the following section with your file path:
 
 ```xml
 <appSettings>
