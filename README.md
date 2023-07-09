@@ -4,7 +4,7 @@ The Inventory Management System is a simple application designed for individual 
 ![screenshot](pics/ims.PNG)
 
 ## Installation
-- Please note that you need .NET Framework 4.8 installed, and you will need MSBuild if you do not have Visual Studio installed.
+- Please note that you need .NET Framework 4.8 installed, and you will need MSBuild and nuget if you do not have Visual Studio installed.
 
 1. Clone the repository to your local machine:
 ```command
@@ -12,14 +12,19 @@ git clone https://github.com/consolelogreece/InventoryManagementSystem.git
 ```
 2. Either load and run the project in Visual Studio, or: 
 
-3. Navigate to the project directory in the terminal, and then into the IMS_UI directory.
+3. Navigate to the project directory in the terminal.
 
-3. Build the project (note: you may need to [configure environment variables](https://softchief.com/2022/06/11/solved-msbuild-is-not-recognized-as-an-internal-or-external-command-operable-program-or-batch-file-while-working-with-pcf/)):
+4. Restore the packages (note: you may need to configure environment variables):
+```command
+nuget restore
+```
+
+5. Build the project (note: you may need to configure environment variables):
 ```command
 MSBuild.exe
 ```
 
-4. Navigate to /bin/debug and run IMS_UI.exe.
+6. Navigate to /IMS_UI/bin/debug and run IMS_UI.exe.
 
 
 ## Configuration
