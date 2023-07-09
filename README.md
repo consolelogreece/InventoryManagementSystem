@@ -1,6 +1,8 @@
 # Inventory Management System
 The Inventory Management System is a simple application designed for individual sellers, similar to platforms like eBay and Depop. This system allows sellers to manage their inventory and generate backups for data security.
 
+![screenshot](pics/ims.png)
+
 ## Installation
 
 To install the Inventory Management System, follow these steps:
@@ -14,7 +16,7 @@ git clone https://github.com/consolelogreece/InventoryManagementSystem.git
 
 3. Navigate to the project directory in the terminal, and then into the IMS_UI directory.
 
-3. Build the project (note: you may need to [configure environment variables](https://softchief.com/2022/06/11/solved-msbuild-is-not-recognized-as-an-internal-or-external-command-operable-program-or-batch-file-while-working-with-pcf/) if this doesn't work):
+3. Build the project (note: you may need to [configure environment variables](https://softchief.com/2022/06/11/solved-msbuild-is-not-recognized-as-an-internal-or-external-command-operable-program-or-batch-file-while-working-with-pcf/)):
 ```command
 MSBuild.exe
 ```
