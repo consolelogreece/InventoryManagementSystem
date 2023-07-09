@@ -53,7 +53,7 @@ namespace IMS_UI
 
             foreach (var r in results)
             {
-                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.Price.ToString(), r.DateAdded.ToLongDateString() }));
+                transactionsListView.Items.Add(new ListViewItem(new string[] { r.Id.ToString(), r.ParentId.ToString(), r.TransactionType, r.NProductsAddedRemoved.ToString(), r.Price.ToString(), r.DateAdded.ToLongDateString() }));
             }
         }
 
@@ -194,5 +194,10 @@ namespace IMS_UI
         }
 
         #endregion
+
+        private void transactionsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -53,12 +53,14 @@
             // 
             // transactionsListView
             // 
+            this.transactionsListView.HideSelection = false;
             this.transactionsListView.Location = new System.Drawing.Point(12, 45);
             this.transactionsListView.MultiSelect = false;
             this.transactionsListView.Name = "transactionsListView";
             this.transactionsListView.Size = new System.Drawing.Size(392, 397);
             this.transactionsListView.TabIndex = 0;
             this.transactionsListView.UseCompatibleStateImageBehavior = false;
+            this.transactionsListView.SelectedIndexChanged += new System.EventHandler(this.transactionsListView_SelectedIndexChanged);
             this.transactionsListView.DoubleClick += new System.EventHandler(this.transactionsListView_DoubleClick);
             // 
             // transactionDateTextbox
